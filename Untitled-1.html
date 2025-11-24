@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comunicador Digital | Joshua Rengifo</title>
+    <!-- Carga de Tailwind CSS (rápida y fluida) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración para usar la fuente Inter -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fafc;
+            scroll-behavior: smooth; /* Asegura el desplazamiento suave */
+        }
+        /* Estilos específicos para la sección de Logos/Aptitudes */
+        .logo-box {
+            height: 56px; /* H-14 */
+            width: 56px; /* W-14 */
+        }
+        
+        /* --- ESTILOS PARA SCROLL REVEAL (Fluidez y Transiciones) --- */
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px); /* Empieza 30px abajo */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform; /* Optimización de rendimiento */
+        }
+        .scroll-reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ESTILO PARA EL FONDO DEL HERO (Simulando 4K/Alta calidad) */
+        .hero-bg {
+            /* Usamos un degradado sutil con una imagen de textura de fondo */
+            background-color: #f7fafc;
+            background-image: url(' ');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navegación (Header) -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Nombre Actualizado -->
+                <a href="#" class="flex-shrink-0 text-2xl font-bold text-indigo-600">
+                    Joshua <span class="text-gray-900"> Rengifo </span>
+                </a>
+                
+                <!-- Menú de escritorio -->
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#aptitudes" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Sobre mí</a>
+                    <a href="#experiencia" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Trabajo</a>
+                    <a href="#servicios" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Servicios</a>
+                    <a href="#contacto" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Contacto</a>
+                </nav>
+
+                <!-- Botón de CTA con efecto en el escritorio -->
+                <div class="hidden md:block">
+                    <!-- ENLACE DE WHATSAPP APLICADO -->
+                    <a href="https://wa.me/54935414553?text=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto%20de%20comunicaci%C3%B3n%20digital." target="_blank" class="inline-block px-5 py-2 border border-transparent text-sm font-medium rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105">
+                        Agenda una Llamada
+                    </a>
+                </div>
+
+                <!-- Botón de menú móvil (Hamburguesa) -->
+                <button id="menu-button" class="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 transition duration-150 ease-in-out">
+                    <svg id="menu-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg id="menu-icon-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menú móvil (con efecto de slide-down) -->
+        <div id="mobile-menu" class="hidden md:hidden transition duration-300 ease-in-out">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#aptitudes" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Aptitudes</a>
+                <a href="#experiencia" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Experiencia</a>
+                <a href="#servicios" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Servicios</a>
+                <a href="#contacto" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Contacto</a>
+                 <!-- ENLACE DE WHATSAPP APLICADO -->
+                <a href="https://wa.me/54935414553?text=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto%20de%20comunicaci%C3%B3n%20digital." target="_blank" class="w-full text-center block px-4 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 mt-2 transition duration-300">
+                    Agenda una Llamada
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sección Principal (Hero) - Con nuevo fondo hero-bg y scroll-reveal -->
+    <main>
+        <div class="hero-bg pt-12 sm:pt-16 lg:pt-24 pb-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+                    <!-- Contenido de Texto -->
+                    <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-7 lg:text-left scroll-reveal">
+                        <span class="inline-block py-1 px-3 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-600 mb-4 animate-pulse">
+                            Comunicación Digital | Estrategia | Resultados
+                        </span>
+                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
+                            <span class="block xl:inline">Tu Estrategia Digital,</span>
+                            <span class="block text-indigo-600 xl:inline">Simplificada y Efectiva.</span>
+                        </h1>
+                        <p class="mt-3 text-base text-gray-700 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                            Hola, soy Joshua Rengifo. Profesional con una mirada estratégica, creativa y orientada a resultados. Me destaco por mi capacidad para comunicar ideas de manera simple y conectar con distintas audiencias.
+                        </p>
+                        <!-- CTA Principal con efecto -->
+                        <div class="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
+                             <!-- ENLACE DE WHATSAPP APLICADO -->
+                            <a href="https://wa.me/54935414553?text=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto%20de%20comunicaci%C3%B3n%20digital." target="_blank" class="inline-flex items-center justify-center w-full sm:w-auto rounded-full border border-transparent px-8 py-3 bg-indigo-600 text-base font-medium text-white shadow-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-300 ease-in-out transform hover:scale-105">
+                                Ver Servicios y Experiencia
+                            </a>
+                            <p class="mt-3 text-sm text-gray-700">
+                                Busco aportar valor real en cada proyecto.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Imagen de Perfil/Placeholder (con sombra y borde) -->
+                    <div class="mt-12 lg:mt-0 lg:col-span-5 flex justify-center items-center scroll-reveal">
+                        <div class="relative w-64 h-64 sm:w-80 sm:h-80">
+                            <div class="rounded-xl shadow-2xl overflow-hidden border-4 border-indigo-500 transform transition duration-500 ease-in-out hover:shadow-indigo-400/50">
+                                <img class="w-full h-full object-cover" 
+                                     src="7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" 
+                                     alt="Foto Profesional de Joshua Rengifo" 
+                                     onerror="this.onerror=null;this.src='https://placehold.co/400x400/5267a3/ffffff?text=JOSHUA+RENIGFO'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Sección de Aptitudes Técnicas (con Logos y hover effects) -->
+        <div id="aptitudes" class="py-16 sm:py-24 lg:py-32 bg-white">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8">
+                <div class="lg:text-center scroll-reveal">
+                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">APTITUDES Y HERRAMIENTAS</h2>
+                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        Mi caja de herramientas para resultados rápidos y claros.
+                    </p>
+                </div>
+
+                <!-- Grid de Aptitudes -->
+                <div class="mt-20">
+                    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        
+                        <!-- Aptitud 1: Adobe Premiere Pro (Logo) -->
+                        <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg border border-gray-100 bg-gray-50 hover:shadow-xl transition duration-300 transform hover:-translate-y-1 scroll-reveal">
+                            <div class="logo-box flex items-center justify-center rounded-full bg-red-100 mb-4 overflow-hidden">
+                                <img src="https://placehold.co/56x56/EF6979/ffffff?text=Pr" alt="Logo Adobe Premiere Pro" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-lg leading-6 font-medium text-gray-900">Adobe Premiere Pro</p>
+                            <p class="mt-2 text-base text-gray-500">
+                                Edición de video y creación de contenidos dinámicos para resultados rápidos  en RRSS.
+                            </p>
+                        </div>
+
+                        <!-- Aptitud 2: Adobe Photoshop (Logo) -->
+                        <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg border border-gray-100 bg-gray-50 hover:shadow-xl transition duration-300 transform hover:-translate-y-1 scroll-reveal" style="transition-delay: 0.1s;">
+                            <div class="logo-box flex items-center justify-center rounded-full bg-blue-100 mb-4 overflow-hidden">
+                                <img src="https://placehold.co/56x56/31A8FF/ffffff?text=Ps" alt="Logo Adobe Photoshop" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-lg leading-6 font-medium text-gray-900">Adobe Photoshop</p>
+                            <p class="mt-2 text-base text-gray-500">
+                                Retoque, creación de piezas visuales y  optimización de imágenes  para la web.
+                            </p>
+                        </div>
+
+                        <!-- Aptitud 3: Meta Ads (Logo) -->
+                        <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg border border-gray-100 bg-gray-50 hover:shadow-xl transition duration-300 transform hover:-translate-y-1 scroll-reveal" style="transition-delay: 0.2s;">
+                            <div class="logo-box flex items-center justify-center rounded-full bg-indigo-100 mb-4 overflow-hidden">
+                                <img src="https://placehold.co/56x56/007AFF/ffffff?text=Ads" alt="Logo Meta Ads" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-lg leading-6 font-medium text-gray-900">Meta Ads</p>
+                            <p class="mt-2 text-base text-gray-500">
+                                Gestión de campañas, segmentación, revisión de métricas y  optimización orientada a venta.
+                            </p>
+                        </div>
+                        
+                        <!-- Aptitud 4: Dreamweaver (Web) (Logo) -->
+                        <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg border border-gray-100 bg-gray-50 hover:shadow-xl transition duration-300 transform hover:-translate-y-1 scroll-reveal" style="transition-delay: 0.3s;">
+                            <div class="logo-box flex items-center justify-center rounded-full bg-green-100 mb-4 overflow-hidden">
+                                <img src="https://placehold.co/56x56/5D1F6E/ffffff?text=DW" alt="Logo Dreamweaver" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-lg leading-6 font-medium text-gray-900">Dreamweaver (HTML/CSS)</p>
+                            <p class="mt-2 text-base text-gray-500">
+                                Maquetación web, ajustes de HTML/CSS y construcción de páginas funcionales.
+                            </p>
+                        </div>
+
+                        <!-- Aptitud 5: Office & Google Workspace (Logo) -->
+                        <div class="flex flex-col items-center text-center p-8 rounded-xl shadow-lg border border-gray-100 bg-gray-50 hover:shadow-xl transition duration-300 transform hover:-translate-y-1 scroll-reveal" style="transition-delay: 0.4s;">
+                            <div class="logo-box flex items-center justify-center rounded-full bg-yellow-100 mb-4 overflow-hidden">
+                                <img src="https://placehold.co/56x56/1572E8/ffffff?text=G+O" alt="Logo Google & Office" class="w-full h-full object-cover">
+                            </div>
+                            <p class="text-lg leading-6 font-medium text-gray-900">Office & Google Workspace</p>
+                            <p class="mt-2 text-base text-gray-500">
+                                Dominio para organización, documentación, trabajo colaborativo  y gestión diaria.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Experiencia Profesional (Timeline/Cards con efectos) -->
+        <div id="experiencia" class="bg-gray-50 py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center scroll-reveal">
+                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">TRAYECTORIA PROFESIONAL</h2>
+                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        Resolviendo problemas y generando valor en distintos entornos.
+                    </p>
+                </div>
+                
+                <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    
+                    <!-- Experiencia 1: Encargado General (MT DELICIAS SERRANAS) -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-indigo-500 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] scroll-reveal">
+                        <p class="text-sm font-semibold text-indigo-600 mb-2">2024 (1 Año)</p>
+                        <h3 class="text-xl font-bold text-gray-900">Encargado General</h3>
+                        <p class="text-sm text-gray-500 mt-1">MT DELICIAS SERRANAS</p>
+                        <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2 text-sm">
+                            <li class="font-medium">Coordinación total (Panadería, Heladería, Shop 24h).</li>
+                            <li>Manejo de caja, inventarios y proveedores.</li>
+                            <li>Resolución de reclamos y supervisión de calidad.</li>
+                            <li>Logro: Mejora de la eficiencia y funcionamiento fluido en horas pico.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Experiencia 2: Freelance Comunicación Digital -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-green-500 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] scroll-reveal" style="transition-delay: 0.1s;">
+                        <p class="text-sm font-semibold text-green-600 mb-2">2023 – Actualidad</p>
+                        <h3 class="text-xl font-bold text-gray-900">Comunicación Digital / Manejo de Redes</h3>
+                        <p class="text-sm text-gray-500 mt-1">Freelance</p>
+                        <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2 text-sm">
+                            <li class="font-medium">Creación de contenido estratégico (video/diseño).</li>
+                            <li>Gestión de campañas Meta Ads y mejora de presencia digital.</li>
+                            <li>Atención al cliente y filtrado rápido de consultas.</li>
+                            <li>**Logro:** Aumento significativo de interacción y consultas.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Experiencia 3: Freelance Atención al Cliente / Ventas -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-yellow-500 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] scroll-reveal" style="transition-delay: 0.2s;">
+                        <p class="text-sm font-semibold text-yellow-600 mb-2">2022 – Actualidad</p>
+                        <h3 class="text-xl font-bold text-gray-900">Atención al Cliente / Ventas Informales</h3>
+                        <p class="text-sm text-gray-500 mt-1">Freelance</p>
+                        <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2 text-sm">
+                            <li class="font-medium">Atención directa, asesoramiento y cierre de ventas.</li>
+                            <li>Organización de pedidos y coordinación logística básica.</li>
+                            <li>Manejo de WhatsApp Business para seguimiento de clientes.</li>
+                            <li>**Aptitud:** Desarrollo de persuasión y resolución rápida de problemas.</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Sección de Servicios (Botones actualizados a WhatsApp) -->
+        <div id="servicios" class="py-16 sm:py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center scroll-reveal">
+                    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">OFERTA DE VALOR</h2>
+                    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+                        Enfócate en tu negocio, yo me encargo de la comunicación.
+                    </p>
+                </div>
+                <!-- Tarjetas de Servicios con efectos -->
+                <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-3">
+                    
+                    <!-- Servicio 1: Gestión de Contenido -->
+                    <div class="flex flex-col rounded-xl shadow-xl p-8 bg-white border border-gray-200 hover:shadow-indigo-300/50 hover:shadow-2xl transition duration-300 transform hover:translate-y-[-4px] scroll-reveal">
+                        <h3 class="text-lg font-semibold text-gray-900">Gestión de Contenido y Redes</h3>
+                        <p class="mt-4 text-sm text-gray-500">Creación, planificación y publicación estratégica de contenido visual y textual.</p>
+                        <ul role="list" class="mt-6 space-y-4">
+                            <li class="flex items-start text-base text-gray-700">Diseño y Edición de Video (Adobe Suite)</li>
+                            <li class="flex items-start text-base text-gray-700">Respuesta y Filtrado de Consultas</li>
+                        </ul>
+                        <!-- ENLACE DE WHATSAPP APLICADO -->
+                        <a href="https://wa.me/54935414553?text=Hola%2C%20quisiera%20saber%20m%C3%A1s%20sobre%20la%20Gesti%C3%B3n%20de%20Contenido%20y%20Redes." target="_blank" class="mt-8 block w-full text-center rounded-full border border-gray-800 bg-white px-6 py-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-100 transition duration-300">
+                            Solicitar Presupuesto
+                        </a>
+                    </div>
+                    
+                    <!-- Servicio 2: Campañas de Pago (Destacado) -->
+                    <div class="flex flex-col rounded-xl shadow-2xl p-8 bg-indigo-600 border border-transparent transform scale-[1.02] transition duration-300 hover:scale-[1.04] scroll-reveal" style="transition-delay: 0.1s;">
+                        <h3 class="text-lg font-semibold text-white">Estrategia y Meta Ads</h3>
+                        <p class="mt-4 text-sm text-indigo-100">Diseño y ejecución de campañas publicitarias digitales orientadas a la conversión.</p>
+                        <ul role="list" class="mt-6 space-y-4 text-white">
+                            <li class="flex items-start text-base">Análisis de Audiencia y Segmentación</li>
+                            <li class="flex items-start text-base">Optimización y Reportes de Métricas</li>
+                            <li class="flex items-start text-base">Asesoramiento Estratégico Continuo</li>
+                        </ul>
+                        <!-- ENLACE DE WHATSAPP APLICADO -->
+                        <a href="https://wa.me/54935414553?text=Hola%2C%20estoy%20interesado%20en%20la%20Estrategia%20y%20Campañas%20Meta%20Ads." target="_blank" class="mt-8 block w-full text-center rounded-full border border-transparent bg-white px-6 py-3 text-sm font-medium text-indigo-600 shadow-sm hover:bg-indigo-50 transition duration-300 transform hover:scale-[1.01]">
+                            Agenda una Llamada
+                        </a>
+                    </div>
+
+                    <!-- Servicio 3: Soporte Operacional -->
+                    <div class="flex flex-col rounded-xl shadow-xl p-8 bg-white border border-gray-200 hover:shadow-indigo-300/50 hover:shadow-2xl transition duration-300 transform hover:translate-y-[-4px] scroll-reveal" style="transition-delay: 0.2s;">
+                        <h3 class="text-lg font-semibold text-gray-900">Soporte Operacional y Logística</h3>
+                        <p class="mt-4 text-sm text-gray-500">Manejo de pedidos, coordinación de logística básica y atención de incidencias.</p>
+                        <ul role="list" class="mt-6 space-y-4">
+                            <li class="flex items-start text-base text-gray-700">Gestión de WhatsApp Business</li>
+                            <li class="flex items-start text-base text-gray-700">Resolución Rápida y Filtrado de Problemas</li>
+                        </ul>
+                        <!-- ENLACE DE WHATSAPP APLICADO -->
+                        <a href="https://wa.me/54935414553?text=Hola%2C%20necesito%20consultar%20por%20Soporte%20Operacional%20y%20Log%C3%ADstica." target="_blank" class="mt-8 block w-full text-center rounded-full border border-gray-800 bg-white px-6 py-3 text-sm font-medium text-gray-800 shadow-sm hover:bg-gray-100 transition duration-300">
+                            Consultar Disponibilidad
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action Final / Contacto -->
+        <div id="contacto" class="bg-indigo-600 scroll-reveal">
+            <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between">
+                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                    <span class="block">¿Listo para un cambio efectivo?</span>
+                    <span class="block text-indigo-200">Envíame tu proyecto hoy mismo.</span>
+                </h2>
+                <div class="mt-6 flex lg:mt-0 lg:flex-shrink-0">
+                    <div class="inline-flex rounded-full shadow-lg">
+                        <!-- ENLACE DE WHATSAPP APLICADO (Final) -->
+                        <a href="https://wa.me/54935414553?text=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto%20de%20comunicaci%C3%B3n%20digital." target="_blank" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-full text-indigo-600 bg-white hover:bg-indigo-50 transition duration-300 transform hover:scale-105">
+                            Escribir por WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800">
+        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
+            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
+                <a href="#aptitudes" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Aptitudes</a>
+                <a href="#experiencia" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Experiencia</a>
+                <a href="#servicios" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Servicios</a>
+                <a href="#contacto" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Contacto</a>
+            </nav>
+            <p class="mt-8 text-center text-base text-gray-400">
+                &copy; 2025 Joshua Rengifo | Comunicación Digital Profesional.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Script para la navegación móvil -->
+    <script>
+        document.getElementById('menu-button').addEventListener('click', function() {
+            var menu = document.getElementById('mobile-menu');
+            var iconOpen = document.getElementById('menu-icon-open');
+            var iconClose = document.getElementById('menu-icon-close');
+            
+            // Alternar la visibilidad del menú
+            menu.classList.toggle('hidden');
+            
+            // Cambiar el ícono (hamburguesa <-> cierre)
+            if (menu.classList.contains('hidden')) {
+                iconOpen.classList.remove('hidden');
+                iconClose.classList.add('hidden');
+            } else {
+                iconOpen.classList.add('hidden');
+                iconClose.classList.remove('hidden');
+            }
+        });
+
+        /* --- SCRIPT PARA SCROLL REVEAL (INTERSECTION OBSERVER) --- */
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1 // Activar cuando el 10% del elemento sea visible
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target); // Detener la observación
+                }
+            });
+        }, observerOptions);
+
+        // Observar todos los elementos con la clase 'scroll-reveal'
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.scroll-reveal').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
