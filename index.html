@@ -3,713 +3,466 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comunicador Digital | Joshua Rengifo</title>
+    <title>Joshua Rengifo | Soluciones Digitales de Alta Conversión</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'primary-purple': '#4F46E5', // Usado para mantener el color índigo
-                    }
-                }
-            }
-        }
-    </script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- AOS Library for Scroll Animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
-        /* Importación de fuente */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        
+        :root {
+            --azul-oscuro: #0f172a; /* Slate-900 */
+            --blanco: #ffffff;
+            --naranja: #f97316; /* Orange-500 */
+            --azul-accent: #3b82f6; /* Blue-500 */
+            --verde-whatsapp: #25D366;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f7fafc;
             scroll-behavior: smooth;
+            background-color: var(--blanco);
+            color: #1e293b;
         }
 
-        /* --- ESTILOS PARA SCROLL REVEAL (Fluidez y Transiciones) --- */
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-            will-change: opacity, transform;
-        }
-        .scroll-reveal.is-visible {
-            opacity: 1;
-            transform: translateY(0);
+        .bg-azul-pro { background-color: var(--azul-oscuro); }
+        .bg-naranja { background-color: var(--naranja); }
+        
+        .btn-cta {
+            background-color: var(--naranja);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px 0 rgba(249, 115, 22, 0.39);
         }
 
-        /* ESTILO PARA EL FONDO DEL HERO */
-        .hero-bg {
-            background-color: #f7fafc;
-            /* Si quieres una textura de fondo, podrías añadirla aquí */
-            background-image: none; /* Eliminado el url vacío para evitar errores */
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.45);
+            filter: brightness(1.1);
         }
 
-        /* --- ESTILOS ESPECÍFICOS PARA EL CARRUSEL (Slider) --- */
-        .slider-container {
-            overflow: hidden;
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-shape {
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
+            overflow: hidden;
+            line-height: 0;
+            transform: rotate(180deg);
         }
-        .slider-wrapper {
+
+        .hero-shape svg {
+            position: relative;
+            display: block;
+            width: calc(100% + 1.3px);
+            height: 60px;
+        }
+
+        .hero-shape .shape-fill {
+            fill: #FFFFFF;
+        }
+
+        .tech-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--azul-accent);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* WhatsApp Floating Button Styling */
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--verde-whatsapp);
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+            z-index: 100;
             display: flex;
-            transition: transform 0.8s ease-in-out;
-        }
-        .slider-item {
-            flex: 0 0 100%;
-            height: 300px;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
-        /* Estilo para los puntos decorativos (si se van a usar) */
-        .dots-bg {
-            background-image: radial-gradient(currentColor 2px, transparent 2px);
-            background-size: 16px 16px;
-            color: #E0E7FF; /* Un tono claro de índigo */
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+            color: #FFF;
         }
 
+        .whatsapp-pulse {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: var(--verde-whatsapp);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-green 2s infinite;
+        }
 
-
-
-
-/* WhatsApp Floating Button */
-  /* Contenedor del botón */
-  .whatsapp-float {
-    position: fixed;
-    right: 20px;
-    bottom: 20px;
-    z-index: 9999;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    pointer-events: auto;
-  }
-
-  /* Botón circular principal */
-  .whatsapp-btn {
-    width: 56px;
-    height: 56px;
-    border-radius: 9999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: #25D366; /* verde WhatsApp */
-    box-shadow: 0 8px 20px rgba(37,211,102,0.18);
-    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
-    cursor: pointer;
-    border: none;
-  }
-  .whatsapp-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 14px 30px rgba(37,211,102,0.22); }
-
-  /* Etiqueta de texto (opcional) */
-  .whatsapp-label {
-    background: white;
-    color: #111827;
-    font-weight: 600;
-    padding: 10px 14px;
-    border-radius: 9999px;
-    box-shadow: 0 6px 18px rgba(17,24,39,0.06);
-    white-space: nowrap;
-    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    font-size: 14px;
-    user-select: none;
-    transform-origin: right center;
-    transition: transform .18s ease, opacity .18s ease;
-  }
-
-  /* Ocultar la etiqueta en pantallas pequeñas (solo el icono) */
-  @media (max-width: 640px) {
-    .whatsapp-label { display: none; }
-  }
-
-  /* Pequeña animación inicial */
-  .whatsapp-float[data-animate="in"] .whatsapp-btn { animation: float 3s ease-in-out infinite; }
-  @keyframes float {
-    0% { transform: translateY(0); }
-    50% { transform: translateY(-6px); }
-    100% { transform: translateY(0); }
-  }
-
-  /* Ajuste si querés tema oscuro (opcional) */
-  @media (prefers-color-scheme: dark) {
-    .whatsapp-label { background: #0f172a; color: #e6eef9; box-shadow: 0 6px 18px rgba(2,6,23,0.6); }
-    .whatsapp-btn { box-shadow: 0 8px 20px rgba(37,211,102,0.08); }
-  }
-
-
-
-
-
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
     </style>
 </head>
 <body>
 
-    <header class="bg-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <a href="#" class="flex-shrink-0 text-2xl font-bold text-indigo-600">
-                    Joshua <span class="text-gray-900"> Rengifo </span>
-                </a>
-                
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#hero" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Inicio</a>
-                    <a href="#experiencia" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Experiencia</a>
-                    <a href="#servicios" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Servicios</a>
-                    <a href="#contacto" class="text-gray-600 hover:text-indigo-600 transition duration-300 ease-in-out">Contacto</a>
-                </nav>
+    <!-- WHATSAPP FLOATING BUTTON -->
+    <a href="https://wa.me/TUNUMEROAQUI?text=Hola%20Joshua,%20me%20gustaría%20impulsar%20mis%20ventas" class="whatsapp-float" target="_blank">
+        <div class="whatsapp-pulse"></div>
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
-                <div class="hidden md:block">
-                    <a href="https://wa.me/5493541214553?text=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto%20de%20comunicaci%C3%B3n%20digital." target="_blank" class="inline-block px-5 py-2 border border-transparent text-sm font-medium rounded-full shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 transition duration-300 ease-in-out transform hover:scale-105">
-                        Agenda una Llamada 📞
-                    </a>
+    <!-- NAV BAR -->
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+            <div class="font-black text-2xl tracking-tighter text-slate-900">JOSHUA <span class="text-orange-500">RENGIFO</span></div>
+            <div class="hidden md:flex gap-8 text-sm font-semibold text-slate-600">
+                <a href="#soluciones" class="hover:text-orange-500 transition-colors">Soluciones</a>
+                <a href="#resultados" class="hover:text-orange-500 transition-colors">Resultados</a>
+                <a href="#sobre-mi" class="hover:text-orange-500 transition-colors">Sobre mí</a>
+            </div>
+            <a href="#contacto" class="bg-orange-500 text-white px-6 py-2.5 rounded-xl font-bold btn-cta text-sm">
+                IMPULSAR MIS VENTAS
+            </a>
+        </div>
+    </nav>
+
+    <!-- SECCIÓN 1: HERO -->
+    <header class="relative pt-32 pb-24 md:pt-48 md:pb-40 bg-azul-pro text-white overflow-hidden">
+        <div class="absolute top-20 left-10 w-32 h-32 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-40 right-10 w-64 h-64 bg-orange-600/10 rounded-full blur-3xl"></div>
+
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            <div class="flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-3/5 text-center md:text-left" data-aos="fade-right">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 text-orange-400 text-xs font-bold mb-6 tracking-wider uppercase">
+                        <span class="relative flex h-2 w-2">
+                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+                          <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+                        </span>
+                        Desarrollo a Medida con Foco en Ventas
+                    </div>
+                    <h1 class="text-4xl md:text-7xl font-black mb-6 leading-[1.1] tracking-tight">
+                        No solo diseño webs. <br>
+                        Construyo <span class="text-orange-500 underline decoration-blue-500/30">máquinas de vender</span>.
+                    </h1>
+                    <p class="text-lg md:text-xl text-slate-300 mb-8 max-w-2xl leading-relaxed">
+                        Desde una Landing Page hasta una Web App compleja. Si tu negocio necesita tecnología para convertir visitas en dinero, yo me encargo de que suceda.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#contacto" class="btn-cta bg-naranja text-white px-10 py-5 rounded-2xl text-lg font-black text-center shadow-2xl">
+                            ¿Hablamos de tu proyecto?
+                        </a>
+                    </div>
+                    <p class="mt-6 text-slate-400 text-sm font-medium">
+                        <i class="fas fa-code text-blue-500 mr-2"></i> HTML5 • React • Web Apps • Automatizaciones
+                    </p>
                 </div>
-
-                <button id="menu-button" class="md:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 transition duration-150 ease-in-out">
-                    <svg id="menu-icon-open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                    <svg id="menu-icon-close" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                <div class="md:w-2/5" data-aos="zoom-in">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-orange-500 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+                        <div class="relative bg-slate-800 rounded-3xl p-2 border border-white/10 shadow-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800" alt="Dashboard de Ventas" class="rounded-2xl">
+                            <div class="absolute bottom-6 left-6 right-6 p-4 glass rounded-xl border border-white/20">
+                                <p class="text-xs font-bold text-orange-400 uppercase tracking-widest">Estado actual</p>
+                                <p class="text-sm font-medium">Optimizando tasa de conversión +45%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div id="mobile-menu" class="hidden md:hidden transition duration-300 ease-in-out">
-            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#hero" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Inicio</a>
-                <a href="#experiencia" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Experiencia</a>
-                <a href="#servicios" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Servicios</a>
-                <a href="#contacto" class="mobile-nav-link block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 transition duration-150">Contacto</a>
-                <a href="https://wa.me/5493541214553?text=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto%20de%20comunicaci%C3%B3n%20digital." target="_blank" class="w-full text-center block px-4 py-2 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 mt-2 transition duration-300">
-                    Agenda una Llamada 📞
-                </a>
-            </div>
+        
+        <div class="hero-shape">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120 shadow-none" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35c63.47,3.33,123.47,15.11,181.71,29.09C233.56,66.11,277.63,64.55,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
         </div>
     </header>
 
-    <main>
-        <div id="hero" class="hero-bg pt-12 sm:pt-16 lg:pt-24 pb-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
-                    <div class="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-7 lg:text-left scroll-reveal">
-                        <span class="inline-block py-1 px-3 rounded-full text-xs font-semibold bg-indigo-100 text-indigo-600 mb-4 animate-pulse">
-                            Comunicación Digital | Estrategia | Resultados
-                        </span>
-                        <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl xl:text-6xl">
-                            <span class="block xl:inline">Tu Estrategia Digital,</span>
-                            <span class="block text-indigo-600 xl:inline">Simplificada y Efectiva.</span>
-                        </h1>
-                        <p class="mt-3 text-base text-gray-700 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                            Hola, soy Joshua Rengifo. Ayudo a empresas y emprendedores a aumentar sus ventas mediante soluciones digitales y comunicación estratégica. Identifico sus problemas, diseño la mejor respuesta y creo herramientas web que realmente generan resultados. Mi enfoque es simple: entender, resolver y hacer crecer a cada cliente.                      </p>
-                        <div class="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                            <a href="#servicios" class="inline-flex items-center justify-center w-full sm:w-auto rounded-full border border-transparent px-8 py-3 bg-indigo-600 text-base font-medium text-white shadow-xl hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition duration-300 ease-in-out transform hover:scale-105">
-                                Ver Servicios y Experiencia
-                            </a>
-                            <p class="mt-3 text-sm text-gray-700">
-                                Busco aportar valor real en cada proyecto.
-                            </p>
-                        </div>
+    <!-- SECCIÓN 2: EL PROBLEMA -->
+    <section class="py-24 bg-white" id="problemas">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="mb-16" data-aos="fade-up">
+                <h2 class="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">El costo de tener una web "linda" pero que no vende</h2>
+                <p class="text-lg text-slate-600">Muchos negocios invierten tiempo y dinero en herramientas que nadie usa.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8 text-left">
+                <div class="group p-8 bg-slate-50 rounded-3xl border border-transparent hover:border-orange-200 transition-all" data-aos="fade-up">
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-chart-line-down"></i>
                     </div>
-                    
-                    <div class="mt-12 lg:mt-0 lg:col-span-5 flex justify-center items-center scroll-reveal" style="transition-delay: 0.1s;">
-                        <div class="relative w-64 h-64 sm:w-80 sm:h-80">
-                            <div class="rounded-xl shadow-2xl overflow-hidden border-4 border-indigo-500 transform transition duration-500 ease-in-out hover:shadow-indigo-400/50">
-                                <img class="w-full h-full object-cover" 
-                                    src="7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" 
-                                    alt="Foto Profesional de Joshua Rengifo" 
-                                    onerror="this.onerror=null;this.src=' 7771020e-b478-4cf5-93fa-0e9bdacba366.jfif  ">
-                            </div>
-                        </div>
+                    <h3 class="text-xl font-bold mb-3">Tráfico que se evapora</h3>
+                    <p class="text-slate-600">Invertís en anuncios pero la gente llega y se va sin dejar un solo dato.</p>
+                </div>
+                <div class="group p-8 bg-slate-50 rounded-3xl border border-transparent hover:border-orange-200 transition-all" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center mb-6 text-xl">
+                        <i class="fas fa-hourglass-half"></i>
                     </div>
+                    <h3 class="text-xl font-bold mb-3">Procesos lentos y manuales</h3>
+                    <p class="text-slate-600">Perdés clientes porque tu sistema de contacto es arcaico o no funciona en móvil.</p>
                 </div>
             </div>
+
+            <div class="mt-16 p-8 bg-slate-900 rounded-[2rem] text-white" data-aos="zoom-in">
+                <p class="text-xl md:text-2xl font-medium leading-relaxed">
+                    "Mi trabajo es eliminar la fricción técnica para que el camino entre <span class="text-orange-400 font-bold">TU NEGOCIO</span> y la <span class="text-orange-400 font-bold">VENTA</span> sea lo más corto posible."
+                </p>
+            </div>
         </div>
-        
-        <div class="py-12 bg-gray-100 border-t border-b border-gray-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-8 scroll-reveal">
-                    <h3 class="text-2xl font-bold text-gray-800">Proyectos y Diseño</h3>
-                    <p class="text-gray-600">Algunas muestras de mi trabajo visual y habilidades clave.</p>
+    </section>
+
+
+
+<!-- SECCIÓN 3: prueba social -->
+
+<section class="py-16 bg-white border-y border-slate-100" id="resultados">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-8">Tecnología y Estrategia Validada en Proyectos de</p>
+            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale">
+                <div class="flex items-center gap-2 text-xl font-bold text-slate-900"><i class="fas fa-shopping-cart"></i> E-COMMERCE</div>
+                <div class="flex items-center gap-2 text-xl font-bold text-slate-900"><i class="fas fa-stethoscope"></i> SALUD</div>
+                <div class="flex items-center gap-2 text-xl font-bold text-slate-900"><i class="fas fa-home"></i> INMOBILIARIAS</div>
+                <div class="flex items-center gap-2 text-xl font-bold text-slate-900"><i class="fas fa-gavel"></i> LEGAL</div>
+            </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-slate-900 p-8 rounded-3xl text-white relative overflow-hidden group" data-aos="fade-up">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-chart-line text-6xl"></i>
                 </div>
-                
-                <div id="photo-slider" class="slider-container rounded-lg shadow-xl scroll-reveal" style="transition-delay: 0.3s;">
-                    <div class="slider-wrapper">
-                        <div class="slider-item">
-    <img 
-        src=" https://img.freepik.com/psd-gratis/plantilla-web-pagina-inicio-restaurante-comida-tradicional-italiana_23-2148526098.jpg?semt=ais_hybrid&w=740&q=80" 
-        alt="Diseño Gráfico y Branding" 
-        class="w-full h-full object-contain bg-gray-100"
-    >
-</div>
+                <h4 class="text-orange-500 font-bold mb-2">Caso Real: Landing Page</h4>
+                <p class="text-3xl font-black mb-4">+300% <span class="text-sm font-normal text-slate-400">en leads</span></p>
+                <p class="text-slate-400 text-sm">Optimizamos el flujo de carga y el copy para un servicio de consultoría, triplicando los contactos mensuales sin subir la inversión en Ads.</p>
+            </div>
 
- <div class="slider-item">
-    <img 
-        src=" https://img.freepik.com/free-psd/flat-design-thrift-store-landing-page-template_23-2150109275.jpg?semt=ais_hybrid&w=740&q=80 " 
-        alt="Diseño Gráfico y Branding" 
-        class="w-full h-full object-contain bg-gray-100"
-    >
-</div>
-<div class="slider-item">
-    <img 
-        src=" https://fiverr-res.cloudinary.com/images/t_main1,q_auto,f_auto,q_auto,f_auto/gigs/159078818/original/194d694138245f39a4080c01150c140885bd96ba/create-a-website-or-mobile-app-mockup-in-adobe-xd.png " 
-        alt="Diseño Gráfico y Branding" 
-        class="w-full h-full object-contain bg-gray-100"
-    >
-</div>
-<div class="slider-item">
-    <img 
-        src=" https://images.ctfassets.net/w6r2i5d8q73s/6ubuPQ6uN5foMMXYUFfxx6/ad0dc6ac7f44e164a3d10a7562398719/mockup-tool_hero_xxl_main-use-case_img_EN?fm=webp&q=75 " 
-        alt="Diseño Gráfico y Branding" 
-        class="w-full h-full object-contain bg-gray-100"
-    >
-</div>
-
-        </div>
-
-
-<!-- Habilidades  -->
-        <section id="aptitudes" class="relative py-12 md:py-20 lg:py-24 overflow-hidden bg-white">
-            <div class="container mx-auto px-4 max-w-7xl">
-                
-                <div class="flex flex-col lg:flex-row gap-12 relative z-10 items-center">
-
-                    <div class="lg:w-5/12 pr-0 lg:pr-12 space-y-6 scroll-reveal">
-                        <div class="flex items-center space-x-4">
-                            <div class="w-10 h-0.5 bg-indigo-600"></div>
-                            <span class="text-sm font-semibold tracking-widest text-indigo-600 uppercase">
-                                MIS HABILIDADES CLAVE
-                            </span>
-                        </div>
-
-                        <h2 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
-                            Habilidades que <span class="text-indigo-600">
-                                Impulsan tus Ventas.
-                                <span class="inline-block w-2 h-2 bg-indigo-600 ml-1"></span>
-                            </span>
-                        </h2>
-
-                        <p class="text-gray-600 text-lg max-w-md">
-                            Mi enfoque combina creatividad visual y estrategia analítica para crear contenido que destaca tu producto, conecta con tu audiencia y genera lo que más buscás: más ventas y mayor visibilidad.                        </p>
-
-                        <div class="pt-4 flex space-x-4">
-                            <a href="#servicios" class="flex items-center justify-center px-6 py-3 text-white bg-indigo-600 rounded-lg shadow-lg hover:opacity-90 transition duration-300 font-semibold">
-                                Ver Servicios
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="lg:w-7/12 grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mt-10 lg:mt-0">
-                        
-                        <div class="p-8 bg-indigo-600 rounded-lg shadow-2xl space-y-4 transition duration-300 transform hover:scale-[1.02] hover:shadow-indigo-400/50 scroll-reveal" style="transition-delay: 0.2s;">
-                            <div class="text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 0l3-3m-3 3l-3-3m2.222 13.911a7 7 0 11-12.444-4.822 7 7 0 0112.444 4.822z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-white">Diseño & Video</h3>
-                            <p class="text-indigo-100 text-sm"> Adobe Suite y herramientas avanzadas de IA para la producción de contenido visual de alta calidad, optimizado para generar impacto, comunicar con claridad y potenciar los resultados de cada proyecto.            </div>
-                        
-                        <div class="p-8 bg-indigo-600 rounded-lg shadow-2xl space-y-4 transition duration-300 transform hover:scale-[1.02] hover:shadow-indigo-400/50 scroll-reveal" style="transition-delay: 0.3s;">
-                            <div class="text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8m-3 6a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-white">Estrategia & Ads</h3>
-                            <p class="text-indigo-100 text-sm">Planificación, segmentación y optimización de campañas en Meta Ads para aumentar alcance, atraer clientes potenciales y maximizar el retorno de inversión.</p>
-                        </div>
-
-                        <div class="p-8 bg-indigo-600 rounded-lg shadow-2xl space-y-4 transition duration-300 transform hover:scale-[1.02] hover:shadow-indigo-400/50 scroll-reveal" style="transition-delay: 0.4s;">
-                            <div class="text-white">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v1" />
-                                </svg>
-                            </div>
-                            <h3 class="text-xl font-bold text-white">Comunicación Operacional</h3>
-                            <p class="text-indigo-100 text-sm"> Gestión eficiente de clientes, resolución ágil de problemas y coordinación operativa a través de canales digitales para asegurar una experiencia fluida y confiable.</p>
-                        </div>
-                    </div>
-
+            <div class="bg-blue-600 p-8 rounded-3xl text-white relative overflow-hidden group" data-aos="fade-up" data-aos-delay="100">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                    <i class="fas fa-check-double text-6xl"></i>
                 </div>
-            </div>
-        </section>
-
-<!-- TRAYECTORIA PROFESIONAL  -->
-       <div id="experiencia" class="bg-gray-50 py-16 sm:py-24">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-        <div class="text-center scroll-reveal">
-            <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">TRAYECTORIA PROFESIONAL</h2>
-            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                Resolviendo problemas y generando valor en distintos entornos.
-            </p>
-        </div>
-
-        <!-- GRID DE 2 COLUMNAS -->
-        <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-2">
-
-            <!-- 2021 – Actualidad: Asesor Digital -->
-            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-blue-500 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] scroll-reveal">
-                <p class="text-sm font-semibold text-blue-600 mb-2">2021 – Actualidad</p>
-                <h3 class="text-xl font-bold text-gray-900">Asesor Digital para Empresas</h3>
-                <p class="text-sm text-gray-500 mt-1">Freelance</p>
-
-                <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2 text-sm">
-                    <li class="font-medium">Diagnóstico comercial y digital.</li>
-                    <li>Desarrollo de estrategias para aumentar ventas.</li>
-                    <li>Implementación de soluciones web y optimización de procesos.</li>
-                    <li>Acompañamiento continuo para mejorar conversión.</li>
-                    <li><strong>Logro:</strong> Mayor visibilidad y crecimiento en consultas.</li>
-                </ul>
+                <h4 class="text-blue-200 font-bold mb-2">Sistemas Activos</h4>
+                <p class="text-3xl font-black mb-4">50k+ <span class="text-sm font-normal text-blue-100">usuarios</span></p>
+                <p class="text-blue-100 text-sm">Desarrollo de Web Apps que hoy procesan miles de solicitudes diarias con 99.9% de estabilidad técnica.</p>
             </div>
 
-            <!-- 2022 – Actualidad: Ventas -->
-            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-yellow-500 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] scroll-reveal">
-                <p class="text-sm font-semibold text-yellow-600 mb-2">2022 – Actualidad</p>
-                <h3 class="text-xl font-bold text-gray-900">Atención al Cliente / Ventas</h3>
-                <p class="text-sm text-gray-500 mt-1">Freelance</p>
-
-                <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2 text-sm">
-                    <li class="font-medium">Asesoramiento directo y cierre de ventas.</li>
-                    <li>Organización de pedidos y coordinación logística.</li>
-                    <li>Gestión de WhatsApp Business para seguimiento.</li>
-                    <li><strong>Fortaleza:</strong> Persuasión y resolución rápida.</li>
-                </ul>
+            <div class="bg-slate-50 p-8 rounded-3xl border border-slate-200 relative overflow-hidden group" data-aos="fade-up" data-aos-delay="200">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform text-slate-900">
+                    <i class="fas fa-shield-alt text-6xl"></i>
+                </div>
+                <h4 class="text-slate-500 font-bold mb-2">Confianza</h4>
+                <p class="text-3xl font-black mb-4 text-slate-900">Auditado</p>
+                <p class="text-slate-600 text-sm">Código limpio y estructurado para SEO, garantizando que cada centavo que inviertas en tráfico sea aprovechado por una web rápida.</p>
             </div>
-
-            <!-- 2023 – Actualidad: Comunicación Digital -->
-            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-green-500 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] scroll-reveal" style="transition-delay: 0.1s;">
-                <p class="text-sm font-semibold text-green-600 mb-2">2023 – Actualidad</p>
-                <h3 class="text-xl font-bold text-gray-900">Comunicación Digital / Redes Sociales</h3>
-                <p class="text-sm text-gray-500 mt-1">Freelance</p>
-
-                <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2 text-sm">
-                    <li class="font-medium">Creación de contenido estratégico.</li>
-                    <li>Gestión y optimización de campañas Meta Ads.</li>
-                    <li>Atención al cliente y respuesta eficiente.</li>
-                    <li><strong>Resultado:</strong> Aumento notable en interacción y consultas.</li>
-                </ul>
-            </div>
-
-            <!-- 2024: Encargado General -->
-            <div class="bg-white p-6 rounded-xl shadow-lg border-t-4 border-indigo-500 hover:shadow-2xl transition duration-300 transform hover:scale-[1.02] scroll-reveal" style="transition-delay: 0.2s;">
-                <p class="text-sm font-semibold text-indigo-600 mb-2">2024</p>
-                <h3 class="text-xl font-bold text-gray-900">Encargado General</h3>
-                <p class="text-sm text-gray-500 mt-1">MT Delicias Serranas</p>
-
-                <ul class="mt-4 text-gray-700 list-disc pl-5 space-y-2 text-sm">
-                    <li class="font-medium">Coordinación integral (panadería, heladería, tienda 24 h).</li>
-                    <li>Control de inventarios, caja y proveedores.</li>
-                    <li>Supervisión de calidad y resolución de reclamos.</li>
-                    <li><strong>Logro:</strong> Operativa más eficiente en horas pico.</li>
-                </ul>
-            </div>
-
         </div>
     </div>
-</div>
+</section>
 
 
-<!-- OFERTA DE VALOR -->
-       <div id="servicios" class="py-16 sm:py-24 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div class="text-center scroll-reveal">
-    <h2 class="text-base text-indigo-600 font-semibold tracking-wide uppercase">LO QUE PUEDO HACER POR TU NEGOCIO</h2>
-    <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-        Soluciones digitales que atraen clientes y aumentan tus ventas.
-    </p>
-</div>
 
 
-        <!-- GRID DE 4 SERVICIOS -->
-        <div class="mt-12 grid grid-cols-1 gap-8 md:grid-cols-4">
 
-            <!-- 1. DISEÑO WEB (BLANCO) -->
-            <div class="flex flex-col rounded-xl shadow-xl p-8 bg-white border border-gray-200 
-                        hover:shadow-indigo-300/50 hover:shadow-2xl transition duration-300 
-                        transform hover:translate-y-[-4px] scroll-reveal">
-                
-                <h3 class="text-lg font-semibold text-gray-900">Diseño Web y Soluciones Digitales</h3>
-                <p class="mt-4 text-sm text-gray-500">
-                    Desarrollo de plataformas modernas, rápidas y pensadas para convertir.
-                </p>
-
-                <ul role="list" class="mt-6 space-y-4">
-                    <li class="flex items-start text-base text-gray-700">✔️ Páginas web profesionales</li>
-                    <li class="flex items-start text-base text-gray-700">✔️ Landing pages optimizadas</li>
-                    <li class="flex items-start text-base text-gray-700">✔️ Ecommerce y pagos online</li>
-                    <li class="flex items-start text-base text-gray-700">✔️ Catálogos y menús digitales</li>
-                    <li class="flex items-start text-base text-gray-700">✔️ Integraciones con WhatsApp y redes</li>
-                </ul>
-
-                <a href="https://wa.me/5493541214553?text=Hola%2C%20quiero%20informaci%C3%B3n%20sobre%20Dise%C3%B1o%20Web%20y%20Soluciones%20Digitales." 
-                   target="_blank"
-                   class="mt-8 block w-full text-center rounded-full border border-gray-800 
-                          bg-white px-6 py-3 text-sm font-medium text-gray-800 shadow-sm 
-                          hover:bg-gray-100 transition duration-300">
-                    Solicitar Presupuesto
-                </a>
+    <!-- SECCIÓN 4: LA OFERTA INTEGRAL -->
+    <section class="py-24 bg-slate-50" id="soluciones">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <span class="text-blue-600 font-bold tracking-widest uppercase text-sm">Lo que necesites, en código sólido</span>
+                <h2 class="text-4xl md:text-5xl font-black text-slate-900 mt-4 mb-6">Soluciones Digitales sin Límites</h2>
+                <p class="text-xl text-slate-600 max-w-3xl mx-auto">No me limito a un formato. Desarrollo la herramienta técnica exacta que tu estrategia de ventas requiere.</p>
             </div>
 
-            <!-- 2. CONTENIDO Y REDES (INDIGO) -->
-            <div class="flex flex-col rounded-xl p-8 bg-indigo-600 text-white border border-transparent 
-                        shadow-2xl transform transition duration-300 hover:scale-[1.03] scroll-reveal"
-                 style="transition-delay: 0.05s;">
-                
-                <h3 class="text-lg font-semibold text-white">Gestión de Contenido y Redes</h3>
-                <p class="mt-4 text-sm text-indigo-100">
-                    Contenido que comunica con claridad y genera resultados reales.
-                </p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 group hover:-translate-y-2 transition-transform" data-aos="fade-up">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <span class="tech-badge">Alta Conversión</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Landings de Venta</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Páginas de aterrizaje optimizadas psicológicamente para campañas de Meta o Google Ads.</p>
+                    <ul class="space-y-3 text-sm font-medium text-slate-500">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Velocidad de carga extrema</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Copy persuasivo integrado</li>
+                    </ul>
+                </div>
 
-                <ul role="list" class="mt-6 space-y-4">
-                    <li class="flex items-start text-base">✔️ Edición de video profesional (Adobe Suite)</li>
-                    <li class="flex items-start text-base">✔️ Creación de piezas visuales</li>
-                    <li class="flex items-start text-base">✔️ Planificación y calendario de contenido</li>
-                    <li class="flex items-start text-base">✔️ Gestión de consultas y atención digital</li>
-                </ul>
+                <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 group hover:-translate-y-2 transition-transform" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <span class="tech-badge">Apps & Webs</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Desarrollo Web & Apps</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Sistemas robustos en HTML/JS para gestionar turnos, catálogos o procesos internos complejos.</p>
+                    <ul class="space-y-3 text-sm font-medium text-slate-500">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Web Apps Escalables</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Mobile First Design</li>
+                    </ul>
+                </div>
 
-                <a href="https://wa.me/5493541214553?text=Hola%2C%20quisiera%20saber%20m%C3%A1s%20sobre%20Gesti%C3%B3n%20de%20Contenido%20y%20Redes." 
-                   target="_blank"
-                   class="mt-8 block w-full text-center rounded-full border border-transparent 
-                          bg-white px-6 py-3 text-sm font-medium text-indigo-600 shadow-sm 
-                          hover:bg-indigo-50 transition duration-300">
-                    Solicitar Presupuesto
-                </a>
+                <div class="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 group hover:-translate-y-2 transition-transform" data-aos="fade-up" data-aos-delay="200">
+                    <div class="flex justify-between items-start mb-8">
+                        <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <span class="tech-badge">Automatización</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Sistemas de Captación</h3>
+                    <p class="text-slate-600 leading-relaxed mb-6">Formularios inteligentes integrados con WhatsApp y bases de datos para no perder leads.</p>
+                    <ul class="space-y-3 text-sm font-medium text-slate-500">
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Integración con CRM</li>
+                        <li><i class="fas fa-check text-green-500 mr-2"></i> Notificaciones en tiempo real</li>
+                    </ul>
+                </div>
             </div>
-
-            <!-- 3. META ADS (BLANCO) -->
-            <div class="flex flex-col rounded-xl shadow-xl p-8 bg-white border border-gray-200 
-                        hover:shadow-indigo-300/50 hover:shadow-2xl transition duration-300 
-                        transform hover:translate-y-[-4px] scroll-reveal" 
-                 style="transition-delay: 0.1s;">
-                
-                <h3 class="text-lg font-semibold text-gray-900">Estrategia y Meta Ads</h3>
-                <p class="mt-4 text-sm text-gray-500">
-                    Campañas orientadas a atraer clientes reales y maximizar resultados.
-                </p>
-
-                <ul role="list" class="mt-6 space-y-4">
-                    <li class="flex items-start text-base text-gray-700">✔️ Segmentación y análisis de audiencia</li>
-                    <li class="flex items-start text-base text-gray-700">✔️ Optimización constante y métricas claras</li>
-                    <li class="flex items-start text-base text-gray-700">✔️ Acompañamiento estratégico continuo</li>
-                </ul>
-
-                <a href="https://wa.me/5493541214553?text=Hola%2C%20estoy%20interesado%20en%20Estrategia%20y%20Meta%20Ads." 
-                   target="_blank"
-                   class="mt-8 block w-full text-center rounded-full border border-gray-800 
-                          bg-white px-6 py-3 text-sm font-medium text-gray-800 shadow-sm 
-                          hover:bg-gray-100 transition duration-300">
-                    Agenda una Llamada
-                </a>
-            </div>
-
-            <!-- 4. SOPORTE OPERACIONAL (INDIGO) -->
-            <div class="flex flex-col rounded-xl p-8 bg-indigo-600 text-white border border-transparent 
-                        shadow-2xl transform transition duration-300 hover:scale-[1.03] scroll-reveal" 
-                 style="transition-delay: 0.15s;">
-                
-                <h3 class="text-lg font-semibold">Soporte Operacional y Logística Digital</h3>
-                <p class="mt-4 text-sm text-indigo-100">
-                    Acompañamiento práctico para mantener tu negocio corriendo sin fricción.
-                </p>
-
-                <ul role="list" class="mt-6 space-y-4">
-                    <li class="flex items-start text-base">✔️ Gestión completa de WhatsApp Business</li>
-                    <li class="flex items-start text-base">✔️ Coordinación de pedidos y seguimiento</li>
-                    <li class="flex items-start text-base">✔️ Resolución rápida de incidencias</li>
-                </ul>
-
-                <a href="https://wa.me/5493541214553?text=Hola%2C%20quiero%20consultar%20sobre%20Soporte%20Operacional%20Digital." 
-                   target="_blank"
-                   class="mt-8 block w-full text-center rounded-full border border-transparent 
-                          bg-white px-6 py-3 text-sm font-medium text-indigo-600 shadow-sm 
-                          hover:bg-indigo-50 transition duration-300">
-                    Consultar Disponibilidad
-                </a>
-            </div>
-
         </div>
-    </div>
-</div>
+    </section>
 
-
-
-<!-- 4. FOTTER LINDO  -->
-        <div id="contacto" class="bg-indigo-700 scroll-reveal"> <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8 lg:flex lg:items-center lg:justify-between">
-                <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-                    <span class="block">¿Listo para un cambio efectivo? 🚀</span>
-                    <span class="block text-indigo-200">Envíame tu proyecto hoy mismo.</span>
-                </h2>
-                <div class="mt-6 flex lg:mt-0 lg:flex-shrink-0">
-                    <div class="inline-flex rounded-full shadow-lg">
-                        <a href="https://wa.me/5493541214553?text=Hola%2C%20quisiera%20conversar%20sobre%20mi%20proyecto%20de%20comunicaci%C3%B3n%20digital." target="_blank" class="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-full text-indigo-600 bg-white hover:bg-indigo-50 transition duration-300 transform hover:scale-105">
-                            Solicitar Información
-                        </a>
+    <!-- SOBRE MÍ -->
+    <section class="py-24 bg-slate-50" id="sobre-mi">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="md:w-1/2" data-aos="fade-right">
+                    <div class="relative">
+                        <div class="absolute -bottom-6 -right-6 w-full h-full border-4 border-orange-500 rounded-3xl z-0"></div>
+                        <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" alt="Joshua Rengifo Profesional" class="relative z-10 rounded-3xl shadow-2xl grayscale hover:grayscale-0 transition-all duration-700">
+                    </div>
+                </div>
+                <div class="md:w-1/2" data-aos="fade-left">
+                    <h2 class="text-4xl font-black text-slate-900 mb-6">Hola, soy Joshua Rengifo.</h2>
+                    <p class="text-xl text-slate-700 font-bold mb-6">Soy el puente entre tu producto y el cliente que lo necesita.</p>
+                    <p class="text-lg text-slate-600 mb-8 leading-relaxed">
+                        Entiendo que no buscás una página web "bonita" porque sí. Buscás facturar más. Mi fortaleza es unir el **Marketing Estratégico** con el **Desarrollo Técnico Avanzado**. 
+                        <br><br>
+                        Si hace falta una App, la hacemos. Si hace falta un embudo complejo, lo construimos. Me hago cargo de todo el proceso para que vos te centres en atender a tus nuevos clientes.
+                    </p>
+                    <div class="flex items-center gap-6">
+                        <div class="text-center">
+                            <p class="text-3xl font-black text-orange-500">+100</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Soluciones</p>
+                        </div>
+                        <div class="h-10 w-px bg-slate-200"></div>
+                        <div class="text-center">
+                            <p class="text-3xl font-black text-blue-600">100%</p>
+                            <p class="text-xs font-bold text-slate-400 uppercase">Foco en ROI</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer class="bg-gray-800">
-        <div class="max-w-7xl mx-auto py-12 px-4 overflow-hidden sm:px-6 lg:px-8">
-            <nav class="-mx-5 -my-2 flex flex-wrap justify-center" aria-label="Footer">
-                <a href="#hero" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Inicio</a>
-                <a href="#experiencia" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Experiencia</a>
-                <a href="#servicios" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Servicios</a>
-                <a href="#contacto" class="px-5 py-2 text-base text-gray-400 hover:text-white transition duration-150">Contacto</a>
-            </nav>
-            <p class="mt-8 text-center text-base text-gray-400">
-                &copy; 2025 Joshua Rengifo | Comunicación Digital Profesional.
+    <!-- FORMULARIO FINAL -->
+    <section id="contacto" class="py-24 bg-white overflow-hidden relative">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+        <div class="bg-slate-50 border border-slate-200 p-10 md:p-20 rounded-[3rem]" data-aos="fade-up">
+            <h2 class="text-4xl md:text-5xl font-black mb-8 tracking-tighter text-slate-900">¿Listo para escalar tus ventas?</h2>
+            <p class="text-xl text-slate-600 mb-12">
+                Dejá de perder contactos por soluciones técnicas mediocres. Construyamos algo que realmente funcione para tu negocio.
             </p>
-        </div>
-    
-    <div class="whatsapp-float" id="whFloat" data-animate="in" aria-hidden="false">
-  <!-- Etiqueta de texto (editable) -->
-  <div class="whatsapp-label" id="whLabel"> Consultame </div>
+            
+            <!-- Formulario con ID para el script -->
+            <form id="whatsappForm" class="text-left max-w-md mx-auto space-y-4 mb-10">
+                <div>
+                    <input id="nombre" type="text" required placeholder="Tu nombre / Empresa" class="w-full bg-white border border-slate-200 px-6 py-4 rounded-xl focus:outline-none focus:border-orange-500 text-slate-900 placeholder-slate-400 transition-all">
+                </div>
+                <div class="relative">
+                    <select id="servicio" required class="w-full bg-white border border-slate-200 px-6 py-4 rounded-xl focus:outline-none focus:border-orange-500 text-slate-600 transition-all appearance-none">
+                        <option value="" disabled selected>¿Qué está pasando hoy con tu negocio?</option>
+                        <option value="Landing Page de Ventas">Landing Page de Ventas</option>
+                        <option value="Aplicación Web a Medida">Aplicación Web a Medida</option>
+                        <option value="Formularios / Automatización">Formularios / Automatización</option>
+                        <option value="Otro / No lo sé aún">Otro / No lo sé aún</option>
+                    </select>
+                    <!-- Icono flecha para el select -->
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                        <i class="fas fa-chevron-down text-sm"></i>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white py-5 rounded-xl text-xl font-black flex items-center justify-center gap-3 transition-colors duration-300">
+                    Hablemos de tu caso <i class="fab fa-whatsapp"></i>
+                </button>
+            </form>
 
-  <!-- Botón redondo -->
-  <button class="whatsapp-btn" id="whBtn" aria-label="Abrir chat de WhatsApp">
-    <!-- Icono SVG de WhatsApp -->
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-      <path d="M20.52 3.48A11.84 11.84 0 0 0 12 0C5.37 0 .01 5.36.01 12a11.9 11.9 0 0 0 2.13 6.6L0 24l5.73-1.51A11.94 11.94 0 0 0 12 24c6.63 0 12-5.36 12-12 0-3.2-1.25-6.2-3.48-8.52z" fill="#fff"/>
-      <path d="M17.14 14.07c-.27-.14-1.6-.79-1.85-.88-.24-.09-.42-.14-.6.14-.18.27-.7.88-.86 1.06-.16.18-.32.2-.59.07-.27-.14-1.14-.42-2.17-1.34-.8-.71-1.34-1.58-1.5-1.85-.16-.27-.02-.42.12-.56.12-.12.27-.32.4-.48.13-.16.18-.27.27-.45.09-.18.05-.34-.02-.48-.07-.14-.6-1.44-.82-1.98-.22-.52-.45-.45-.62-.46-.16-.01-.34-.01-.52-.01-.18 0-.48.07-.73.34-.25.27-.96.94-.96 2.3 0 1.36.98 2.68 1.12 2.86.14.18 1.93 2.94 4.68 4.01 3.28 1.25 3.28.83 3.87.78.59-.05 1.91-.78 2.18-1.53.27-.75.27-1.39.19-1.53-.08-.15-.28-.22-.55-.36z" fill="#25D366"/>
-    </svg>
-  </button>
-</div>
-    
-    
-    </footer>
+            <div class="flex flex-wrap justify-center gap-8 text-xs font-bold text-slate-400 uppercase tracking-widest">
+                <span><i class="fas fa-check text-orange-500 mr-2"></i> Soporte Directo</span>
+                <span><i class="fas fa-check text-orange-500 mr-2"></i> Código Limpio</span>
+                <span><i class="fas fa-check text-orange-500 mr-2"></i> Resultados Medibles</span>
+            </div>
+        </div>
+    </div>
 
     <script>
+        document.getElementById('whatsappForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
+            // Configuración del número de teléfono (sin el signo +)
+            const telefono = "5491122334455"; // Reemplaza con tu número real
 
- (function(){
-    // Número y mensaje predefinido (editar si querés)
-    const phone = '+5493541214553'; // <- tu número (formato internacional)
-    const message = 'Hola, estoy interesado en tus servicios. ¿Podemos coordinar una llamada?';
+            // Obtener valores de los inputs
+            const nombre = document.getElementById('nombre').value;
+            const servicio = document.getElementById('servicio').value;
 
-    // Elementos
-    const btn = document.getElementById('whBtn');
-    const label = document.getElementById('whLabel');
-    const floatWrap = document.getElementById('whFloat');
+            // Construir el mensaje
+            const mensaje = `Hola! 👋 Mi nombre es *${nombre}*.\n\nMe gustaría consultar por: *${servicio}*.\n\nVi el formulario en la web y me gustaría escalar mis ventas.`;
 
-    // Click handler: abre WhatsApp Web / App
-    function openWhatsApp() {
-      const encoded = encodeURIComponent(message);
-      const url = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encoded}`;
-      window.open(url, '_blank');
-    }
-    btn.addEventListener('click', openWhatsApp);
-    label.addEventListener('click', openWhatsApp);
+            // Codificar el mensaje para URL
+            const mensajeEncoded = encodeURIComponent(mensaje);
 
-    // Opcional: mostrar/ocultar etiqueta cuando se hace scroll (mejora UX)
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const current = window.scrollY;
-      if (current > lastScroll && current > 120) {
-        // scrolldown -> esconder etiqueta
-        label.style.opacity = '0';
-        label.style.transform = 'translateX(8px) scale(.98)';
-        label.style.pointerEvents = 'none';
-      } else {
-        // scrollup -> mostrar etiqueta
-        label.style.opacity = '1';
-        label.style.transform = 'translateX(0) scale(1)';
-        label.style.pointerEvents = 'auto';
-      }
-      lastScroll = current;
-    }, { passive: true });
+            // Redirigir a WhatsApp
+            window.open(`https://wa.me/${telefono}?text=${mensajeEncoded}`, '_blank');
+        });
+    </script>
+</section>
 
-    // Opcional: si querés que el botón desaparezca en pantallas muy grandes
-    function adjustVisibility() {
-      if (window.innerWidth > 1600) {
-        floatWrap.style.display = 'none';
-      } else {
-        floatWrap.style.display = '';
-      }
-    }
-    window.addEventListener('resize', adjustVisibility);
-    adjustVisibility();
-  })();
+    <!-- FOOTER -->
+    <footer class="py-12 bg-slate-950 text-slate-500 text-center text-sm border-t border-white/5">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="font-black text-xl text-white mb-6 tracking-tighter">JOSHUA <span class="text-orange-500">RENGIFO</span></div>
+            <p>&copy; 2025 Joshua Rengifo | Desarrollador y estratega de ventas.</p>
+        </div>
+    </footer>
 
-
-        // Funcionalidad del Menú Móvil
-        const menuButton = document.getElementById('menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const iconOpen = document.getElementById('menu-icon-open');
-        const iconClose = document.getElementById('menu-icon-close');
-        const navLinks = document.querySelectorAll('.mobile-nav-link');
-
-        function toggleMenu() {
-            mobileMenu.classList.toggle('hidden');
-            iconOpen.classList.toggle('hidden');
-            iconClose.classList.toggle('hidden');
-        }
-
-        menuButton.addEventListener('click', toggleMenu);
-
-        // Cierra el menú móvil al hacer clic en un enlace de navegación
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                // Solo si el menú está abierto
-                if (!mobileMenu.classList.contains('hidden')) {
-                    toggleMenu();
-                }
-            });
+    <!-- AOS JS for Animations -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1200,
+            once: true,
+            easing: 'ease-in-out'
         });
 
-        // Funcionalidad de Scroll Reveal (Animación al aparecer)
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1 // El elemento es visible si el 10% está en el viewport
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    // Una vez visible, deja de observarlo
-                    observer.unobserve(entry.target); 
-                }
-            });
-        }, observerOptions);
-
-        // Observar todos los elementos con la clase scroll-reveal
-        document.querySelectorAll('.scroll-reveal').forEach(el => {
-            observer.observe(el);
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.innerHTML = '<i class="fas fa-circle-notch animate-spin"></i> Procesando...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = '¡Consulta recibida! Te escribo pronto 🎉';
+                btn.classList.replace('bg-naranja', 'bg-green-600');
+                e.target.reset();
+            }, 2000);
         });
-
-        // Funcionalidad del Carrusel (Slider de Fotos)
-        const sliderWrapper = document.querySelector('.slider-wrapper');
-        const sliderItems = document.querySelectorAll('.slider-item');
-        let currentIndex = 0;
-        const totalItems = sliderItems.length;
-
-        function updateSlider() {
-            // Mueve el carrusel horizontalmente
-            const offset = -currentIndex * 100;
-            sliderWrapper.style.transform = `translateX(${offset}%)`;
-        }
-
-        function nextSlide() {
-            // Incrementa el índice, si llega al final, vuelve al principio
-            currentIndex = (currentIndex + 1) % totalItems;
-            updateSlider();
-        }
-
-        // Auto-avanzar cada 5 segundos
-        setInterval(nextSlide, 5000);
-
-        // Llamar a updateSlider para asegurar la posición inicial
-        document.addEventListener('DOMContentLoaded', updateSlider);
-
     </script>
 </body>
 </html>
