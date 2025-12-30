@@ -48,7 +48,7 @@
             inset: 0;
             z-index: -1;
             pointer-events: none;
-            opacity: 0; /* Se activa con GSAP al cargar */
+            opacity: 0;
             transition: opacity 2s ease;
         }
 
@@ -64,7 +64,6 @@
         .img-shader-container {
             overflow: hidden;
             position: relative;
-            mask-image: linear-gradient(to bottom, black, black);
         }
         
         .img-shader-container img {
@@ -77,7 +76,7 @@
             filter: brightness(1) contrast(1.1);
         }
 
-        /* Cursor */
+        /* Cursor - Z-index superior a la Nav */
         #cursor-dot { width: 6px; height: 6px; background: var(--naranja); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100001; }
         #cursor-follower { width: 45px; height: 45px; border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; }
 
@@ -95,6 +94,11 @@
         
         /* Ocultar scrollbar */
         ::-webkit-scrollbar { display: none; }
+
+        /* Corrección de la Nav para que no ensucie */
+        #navbar {
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
     </style>
 </head>
 <body class="lenis-smooth">
@@ -113,21 +117,22 @@
         <spline-viewer url="https://prod.spline.design/6Wq1Q7YEBQuM1S4a/scene.splinecode"></spline-viewer>
     </div>
 
-    <a href="https://wa.me/5493541214553?text=Hola%20Joshua" class="whatsapp-float fixed bottom-8 right-8 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl z-[100] shadow-2xl transition-all hover:scale-110 active:scale-95">
+    <a href="https://wa.me/5493541214553?text=Hola%20Joshua" class="whatsapp-float fixed bottom-8 right-8 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl z-[90] shadow-2xl transition-all hover:scale-110 active:scale-95">
         <i class="fab fa-whatsapp text-white"></i>
     </a>
 
-    <nav class="fixed w-full z-[100] mix-blend-difference" id="navbar">
-        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-            <div class="font-black text-2xl tracking-tighter text-white">
+    <nav class="fixed w-full z-[100] border-b border-white/5" id="navbar">
+        <div class="absolute inset-0 bg-[#030712]/80 backdrop-blur-xl"></div>
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-10">
+            <div class="font-black text-xl tracking-tighter text-white">
                 JOSHUA <span class="text-orange-500">RENGIFO</span>
             </div>
-            <div class="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white/70">
+            <div class="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
                 <a href="#soluciones" class="hover:text-orange-500 transition-colors">Soluciones</a>
                 <a href="#sobre-mi" class="hover:text-orange-500 transition-colors">Perfil</a>
                 <a href="#contacto" class="hover:text-orange-500 transition-colors">Contacto</a>
             </div>
-            <a href="#contacto" class="magnetic bg-orange-500 text-white px-8 py-3 rounded-full font-black text-[10px] tracking-widest shadow-lg shadow-orange-500/20">
+            <a href="#contacto" class="magnetic bg-orange-500 text-white px-6 py-2.5 rounded-full font-black text-[10px] tracking-widest shadow-lg shadow-orange-500/20">
                 AGENDAR CONSULTA
             </a>
         </div>
@@ -182,21 +187,16 @@
                 <h2 class="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">Tu web actual podría estar <br><span class="text-orange-500">quemando dinero</span>.</h2>
                 <div class="w-20 h-[2px] bg-orange-500/30 mx-auto"></div>
             </div>
-            
             <div class="grid md:grid-cols-2 gap-16">
-                <div class="p-12 rounded-[3rem] glass-card reveal group hover:border-orange-500/50 transition-colors">
-                    <div class="w-16 h-16 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-bolt text-2xl text-orange-500"></i>
-                    </div>
+                <div class="p-12 rounded-[3rem] glass-card reveal group">
+                    <div class="w-16 h-16 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-8"><i class="fas fa-bolt text-2xl text-orange-500"></i></div>
                     <h3 class="text-3xl font-bold mb-4 text-white">Carga Lenta</h3>
-                    <p class="text-slate-400 text-lg leading-relaxed">Cada segundo de demora en tu sitio reduce la conversión un 7%. Construyo interfaces que cargan al instante.</p>
+                    <p class="text-slate-400 text-lg">Cada segundo de demora reduce la conversión un 7%.</p>
                 </div>
-                <div class="p-12 rounded-[3rem] glass-card reveal group hover:border-blue-500/50 transition-colors">
-                    <div class="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-fingerprint text-2xl text-blue-500"></i>
-                    </div>
+                <div class="p-12 rounded-[3rem] glass-card reveal group">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8"><i class="fas fa-fingerprint text-2xl text-blue-500"></i></div>
                     <h3 class="text-3xl font-bold mb-4 text-white">Sin Identidad</h3>
-                    <p class="text-slate-400 text-lg leading-relaxed">Si tu web parece una plantilla básica, tus clientes no confiarán en tu ticket alto. Te doy autoridad visual.</p>
+                    <p class="text-slate-400 text-lg">Te doy la autoridad visual que tu negocio merece.</p>
                 </div>
             </div>
         </div>
@@ -205,25 +205,22 @@
     <div id="soluciones-pin">
         <section class="bg-black overflow-hidden" id="soluciones">
             <div class="horizontal-container">
-                <div class="horizontal-item bg-[#030712]">
-                    <div class="max-w-4xl px-6 text-center">
+                <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
+                    <div class="text-center">
                         <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 01</span>
                         <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">LANDINGS</h2>
-                        <p class="text-2xl text-slate-500 mt-8 font-light italic">"Convertimos clics en clientes recurrentes"</p>
                     </div>
                 </div>
-                <div class="horizontal-item bg-black">
-                    <div class="max-w-4xl px-6 text-center">
+                <div class="horizontal-item bg-black w-screen h-screen flex items-center justify-center">
+                    <div class="text-center">
                         <span class="text-blue-500 font-black tracking-[0.5em] uppercase text-xs">Paso 02</span>
                         <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">WEB APPS</h2>
-                        <p class="text-2xl text-slate-500 mt-8 font-light italic">"Sistemas robustos para negocios escalables"</p>
                     </div>
                 </div>
-                <div class="horizontal-item bg-[#030712]">
-                    <div class="max-w-4xl px-6 text-center">
+                <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
+                    <div class="text-center">
                         <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 03</span>
                         <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">FUNNELS</h2>
-                        <p class="text-2xl text-slate-500 mt-8 font-light italic">"Automatización total vía WhatsApp API"</p>
                     </div>
                 </div>
             </div>
@@ -234,96 +231,82 @@
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-24">
             <div class="w-full md:w-1/2 reveal">
                 <div class="p-4 glass-card rounded-[4rem] img-shader-container">
-                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" 
-                         class="rounded-[3.2rem] shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000">
+                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" class="rounded-[3.2rem] grayscale">
                 </div>
             </div>
             <div class="w-full md:w-1/2 reveal">
                 <span class="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px]">El Arquitecto Digital</span>
                 <h2 class="text-5xl md:text-7xl font-black text-white mt-6 mb-10 leading-[1.1]">Obsesionado <br>con resultados.</h2>
-                <p class="text-xl text-slate-400 mb-10 leading-relaxed font-light">
-                    Soy Joshua Rengifo, y mi trabajo es simple: <strong>Eliminar la fricción técnica</strong>. Yo programo pensando en tu balance de fin de mes.
-                </p>
-                <div class="grid grid-cols-1 gap-4">
-                    <div class="p-6 glass-card rounded-2xl border-l-4 border-orange-500 flex justify-between items-center group cursor-default">
-                        <span class="font-bold tracking-widest uppercase text-sm">Estrategia Directa</span>
-                        <i class="fas fa-chevron-right text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </div>
-                    <div class="p-6 glass-card rounded-2xl border-l-4 border-blue-500 flex justify-between items-center group cursor-default">
-                        <span class="font-bold tracking-widest uppercase text-sm">Código Premium</span>
-                        <i class="fas fa-chevron-right text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity"></i>
-                    </div>
-                </div>
+                <p class="text-xl text-slate-400 mb-10 font-light">Soy Joshua Rengifo, elimino la fricción técnica para que tu negocio escale.</p>
+                <div class="p-6 glass-card rounded-2xl border-l-4 border-orange-500 font-bold tracking-widest uppercase text-sm">Estrategia Directa</div>
             </div>
         </div>
     </section>
 
     <section id="contacto" class="py-40">
         <div class="max-w-4xl mx-auto px-6 reveal">
-            <div class="glass-card p-12 md:p-32 rounded-[5rem] text-center relative overflow-hidden">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-30"></div>
+            <div class="glass-card p-12 md:p-32 rounded-[5rem] text-center">
                 <h2 class="text-6xl md:text-[6rem] font-black text-white mb-12 tracking-tighter">¿Escalamos <br>tu visión?</h2>
                 <form id="whatsappForm" class="max-w-md mx-auto space-y-6">
-                    <input id="nombre" type="text" required placeholder="Nombre o Empresa" 
-                           class="w-full bg-white/5 border border-white/10 px-8 py-6 rounded-2xl focus:border-orange-500 text-white outline-none transition-all placeholder:text-white/20">
-                    <select id="servicio" required class="w-full bg-white/5 border border-white/10 px-8 py-6 rounded-2xl focus:border-orange-500 text-white/50 outline-none appearance-none">
+                    <input id="nombre" type="text" required placeholder="Nombre" class="w-full bg-white/5 border border-white/10 px-8 py-6 rounded-2xl text-white outline-none focus:border-orange-500">
+                    <select id="servicio" class="w-full bg-white/5 border border-white/10 px-8 py-6 rounded-2xl text-white/50 outline-none">
                         <option value="Landing Page">Landing Page Pro</option>
                         <option value="Web App">Web App / CRM</option>
                     </select>
-                    <button type="submit" class="magnetic w-full bg-orange-500 text-white py-7 rounded-2xl text-xl font-black hover:bg-orange-600 transition-all shadow-2xl shadow-orange-500/40">
-                        Hablemos ahora <i class="fab fa-whatsapp ml-2"></i>
-                    </button>
+                    <button type="submit" class="magnetic w-full bg-orange-500 text-white py-7 rounded-2xl text-xl font-black">Hablemos ahora <i class="fab fa-whatsapp ml-2"></i></button>
                 </form>
             </div>
         </div>
     </section>
 
     <script>
-        // 1. Preloader Logic
+        // 1. Preloader
         window.addEventListener('load', () => {
-            gsap.to("#preloader-bar", { width: "100%", duration: 0.8, ease: "power4.inOut" });
-            gsap.to("#preloader", { 
-                yPercent: -100, 
-                duration: 1.2, 
-                delay: 1, 
-                ease: "expo.inOut",
-                onComplete: () => {
-                    document.getElementById('preloader').remove();
-                    document.getElementById('spline-bg').style.opacity = "0.6";
-                }
-            });
+            gsap.to("#preloader-bar", { width: "100%", duration: 0.8 });
+            gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 1, ease: "expo.inOut", onComplete: () => {
+                document.getElementById('preloader').remove();
+                document.getElementById('spline-bg').style.opacity = "0.6";
+            }});
         });
 
-        // 2. Smooth Scroll (Lenis)
-        const lenis = new Lenis({ lerp: 0.05, smoothWheel: true });
+        // 2. Lenis
+        const lenis = new Lenis({ lerp: 0.05 });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // 3. Cursor Engine (2 capas con inercia diferenciada)
+        // 3. NAVEGACIÓN INTELIGENTE (Auto-hide y cristalinidad)
+        const nav = document.getElementById('navbar');
+        let lastScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            if (lastScrollY < window.scrollY && window.scrollY > 150) {
+                gsap.to(nav, { yPercent: -100, duration: 0.5, ease: "power2.inOut" });
+            } else {
+                gsap.to(nav, { yPercent: 0, duration: 0.5, ease: "power2.out" });
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // 4. Cursor Engine
         const dot = document.getElementById('cursor-dot');
         const follower = document.getElementById('cursor-follower');
-        
         window.addEventListener('mousemove', (e) => {
             gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.1 });
             gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6, ease: "power3.out" });
         });
 
-        // 4. Efecto Magnético en botones
+        // 5. Magnéticos
         document.querySelectorAll('.magnetic').forEach(el => {
             el.addEventListener('mousemove', (e) => {
                 const rect = el.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.4, ease: "power2.out" });
+                gsap.to(el, { x: (e.clientX - rect.left - rect.width/2)*0.3, y: (e.clientY - rect.top - rect.height/2)*0.3, duration: 0.4 });
             });
-            el.addEventListener('mouseleave', () => {
-                gsap.to(el, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1, 0.3)" });
-            });
+            el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6 }));
         });
 
-        // 5. Scroll Horizontal de Alta Precisión
+        // 6. Scroll Horizontal
         let sections = gsap.utils.toArray(".horizontal-item");
         gsap.to(sections, {
             xPercent: -100 * (sections.length - 1),
@@ -336,37 +319,19 @@
             }
         });
 
-        // 6. Staggered Reveals (Entrada Expo)
+        // 7. Reveals
         document.querySelectorAll('.reveal').forEach((el) => {
-            gsap.fromTo(el, 
-                { opacity: 0, y: 60, scale: 0.98 },
-                {
-                    opacity: 1, y: 0, scale: 1,
-                    duration: 1.8,
-                    ease: "expo.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 85%"
-                    }
-                }
-            );
+            gsap.fromTo(el, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1.5, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" }});
         });
 
-        // 7. Marquee Infinito
-        gsap.to(".marquee-content", {
-            xPercent: -50,
-            ease: "none",
-            duration: 20,
-            repeat: -1
-        });
+        // 8. Marquee
+        gsap.to(".marquee-content", { xPercent: -50, ease: "none", duration: 20, repeat: -1 });
 
-        // 8. Registro de Formulario (Intacto)
+        // WhatsApp
         document.getElementById('whatsappForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const nombre = document.getElementById('nombre').value;
-            const servicio = document.getElementById('servicio').value;
-            const mensaje = `Hola Joshua! 👋 Soy ${nombre}. Me interesa el servicio de: ${servicio}.`;
-            window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(mensaje)}`, '_blank');
+            const msg = `Hola Joshua! Soy ${document.getElementById('nombre').value}. Me interesa: ${document.getElementById('servicio').value}.`;
+            window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(msg)}`, '_blank');
         });
     </script>
 </body>
