@@ -37,19 +37,13 @@
             background-color: var(--azul-oscuro);
             color: #f8fafc;
             overflow-x: hidden;
-            /* El cursor se oculta solo en PC para no afectar la experiencia táctil */
             @media (min-width: 768px) { cursor: none; }
         }
 
         #code-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.3;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; opacity: 0.3;
         }
 
         .glass-card {
@@ -60,23 +54,19 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        .img-shader-container {
-            overflow: hidden;
-            position: relative;
-            perspective: 1000px;
+        /* --- ESTILOS 3D SCROLL --- */
+        .perspective-container {
+            perspective: 2000px;
         }
-        
-        .img-shader-container img {
-            transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1);
-            filter: brightness(0.8) contrast(1.1);
+        #object-3d-scroll {
+            transform-style: preserve-3d;
+            will-change: transform;
         }
 
         #cursor-dot { width: 6px; height: 6px; background: var(--naranja); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100001; display: none; }
         #cursor-follower { width: 45px; height: 45px; border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; display: none; }
         
-        @media (min-width: 768px) {
-            #cursor-dot, #cursor-follower { display: block; }
-        }
+        @media (min-width: 768px) { #cursor-dot, #cursor-follower { display: block; } }
 
         .gradient-text {
             background: linear-gradient(90deg, #fff, var(--naranja), #fff);
@@ -87,15 +77,7 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        /* Ajuste de la línea Marquee para que sea delgada en móvil */
-        .marquee { 
-            background: var(--naranja); 
-            font-weight: 900; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em;
-            white-space: nowrap;
-        }
-
+        .marquee { background: var(--naranja); font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; white-space: nowrap; }
         .horizontal-container { display: flex; width: 300%; will-change: transform; }
         ::-webkit-scrollbar { display: none; }
         #navbar { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -122,17 +104,13 @@
     <nav class="fixed w-full z-[100] border-b border-white/5" id="navbar">
         <div class="absolute inset-0 bg-[#030712]/80 backdrop-blur-xl"></div>
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-10">
-            <div class="font-black text-xl tracking-tighter text-white">
-                JOSHUA <span class="text-orange-500">RENGIFO</span>
-            </div>
+            <div class="font-black text-xl tracking-tighter text-white">JOSHUA <span class="text-orange-500">RENGIFO</span></div>
             <div class="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
                 <a href="#soluciones" class="hover:text-orange-500 transition-colors">Soluciones</a>
                 <a href="#sobre-mi" class="hover:text-orange-500 transition-colors">Perfil</a>
                 <a href="#contacto" class="hover:text-orange-500 transition-colors">Contacto</a>
             </div>
-            <a href="#contacto" class="magnetic bg-orange-500 text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full font-black text-[9px] md:text-[10px] tracking-widest shadow-lg shadow-orange-500/20">
-                AGENDAR CONSULTA
-            </a>
+            <a href="#contacto" class="magnetic bg-orange-500 text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full font-black text-[9px] md:text-[10px] tracking-widest">AGENDAR CONSULTA</a>
         </div>
     </nav>
 
@@ -141,31 +119,15 @@
             <div class="flex flex-col md:flex-row items-center gap-16">
                 <div class="md:w-3/5 text-center md:text-left reveal">
                     <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-card text-orange-400 text-[10px] font-bold mb-8 tracking-[0.3em] uppercase">
-                        <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-ping"></span>
-                        Soluciones Tecnológicas High-End
+                        <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-ping"></span>Soluciones Tecnológicas High-End
                     </div>
-                    <h1 class="text-5xl md:text-[7rem] font-black mb-8 leading-[0.9] tracking-tighter text-white">
-                        Vende más con <br>
-                        <span class="gradient-text">Ingeniería Web</span>
-                    </h1>
-                    <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-xl leading-relaxed font-light">
-                        Transformo negocios estancados en ecosistemas digitales de alta conversión mediante código limpio y estrategia de ventas.
-                    </p>
-                    <a href="#contacto" class="magnetic inline-block bg-white text-black px-12 py-6 rounded-2xl text-lg font-black hover:bg-orange-500 hover:text-white transition-all duration-500">
-                        Iniciar Proyecto
-                    </a>
+                    <h1 class="text-5xl md:text-[7rem] font-black mb-8 leading-[0.9] tracking-tighter text-white">Vende más con <br><span class="gradient-text">Ingeniería Web</span></h1>
+                    <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-xl font-light">Transformo negocios estancados en ecosistemas digitales de alta conversión mediante código limpio.</p>
+                    <a href="#contacto" class="magnetic inline-block bg-white text-black px-12 py-6 rounded-2xl text-lg font-black hover:bg-orange-500 hover:text-white transition-all duration-500">Iniciar Proyecto</a>
                 </div>
-
                 <div class="md:w-2/5 relative reveal">
-                    <div class="parallax-target">
-                        <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container overflow-visible">
-                            <img id="main-image-3d" src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" 
-                                 class="rounded-[2.5rem] shadow-2xl grayscale group-hover:grayscale-0">
-                            <div class="absolute -bottom-6 -left-6 p-6 md:p-8 glass-card rounded-3xl border border-white/20">
-                                <p class="text-3xl md:text-4xl font-black text-orange-500">+150%</p>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ROI Promedio</p>
-                            </div>
-                        </div>
+                    <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container overflow-visible">
+                        <img id="main-image-3d" src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" class="rounded-[2.5rem] shadow-2xl grayscale group-hover:grayscale-0">
                     </div>
                 </div>
             </div>
@@ -176,28 +138,31 @@
         <div class="marquee-content flex gap-10 md:gap-20 text-[10px] md:text-base">
             <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
             <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
-            <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
         </div>
     </div>
 
-    <section class="py-24 md:py-40" id="problemas">
-        <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-16 md:mb-24 reveal">
-                <h2 class="text-4xl md:text-7xl font-black text-white mb-8 leading-tight">Tu web actual podría estar <br><span class="text-orange-500">quemando dinero</span>.</h2>
-                <div class="w-16 md:w-20 h-[1px] md:h-[2px] bg-orange-500/30 mx-auto"></div>
+    <section class="py-32 md:py-60 perspective-container overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
+            <div class="reveal">
+                <span class="text-orange-500 font-black tracking-[0.3em] uppercase text-[10px]">Experiencia Visual</span>
+                <h2 class="text-5xl md:text-7xl font-black text-white mt-4 mb-8 leading-tight">Interacción <br><span class="text-orange-500">Inmersiva 3D</span></h2>
+                <p class="text-slate-400 text-xl font-light">Cada scroll es una respuesta. No solo construyo sitios, diseño entornos digitales que respiran y reaccionan al usuario.</p>
             </div>
-            <div class="grid md:grid-cols-2 gap-8 md:gap-16">
-                <div class="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] glass-card reveal group">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-8"><i class="fas fa-bolt text-xl md:text-2xl text-orange-500"></i></div>
-                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-white">Carga Lenta</h3>
-                    <p class="text-slate-400 text-base md:text-lg">Cada segundo de demora reduce la conversión un 7%.</p>
-                </div>
-                <div class="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] glass-card reveal group">
-                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8"><i class="fas fa-fingerprint text-xl md:text-2xl text-blue-500"></i></div>
-                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-white">Sin Identidad</h3>
-                    <p class="text-slate-400 text-base md:text-lg">Te doy la autoridad visual que tu negocio merece.</p>
+            <div class="relative flex justify-center">
+                <div id="object-3d-scroll" class="glass-card p-4 rounded-[3rem] w-full max-w-sm md:max-w-md border border-white/10">
+                    <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800" class="rounded-[2.5rem] shadow-2xl">
+                    <div class="absolute -top-6 -right-6 p-6 glass-card rounded-2xl border border-orange-500/50" style="transform: translateZ(50px);">
+                        <p class="text-orange-500 font-bold text-xs tracking-widest">MOTION 3D</p>
+                    </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section class="py-24" id="problemas">
+        <div class="max-w-5xl mx-auto px-6 text-center reveal">
+            <h2 class="text-4xl md:text-7xl font-black text-white mb-8">Tu web actual podría estar <br><span class="text-orange-500">quemando dinero</span>.</h2>
+            <div class="w-16 h-[1px] bg-orange-500/30 mx-auto"></div>
         </div>
     </section>
 
@@ -205,73 +170,64 @@
         <section class="bg-black overflow-hidden" id="soluciones">
             <div class="horizontal-container">
                 <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
-                    <div class="text-center">
-                        <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 01</span>
-                        <h2 class="text-6xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">LANDINGS</h2>
-                    </div>
+                    <h2 class="text-6xl md:text-[10rem] font-black text-white">LANDINGS</h2>
                 </div>
                 <div class="horizontal-item bg-black w-screen h-screen flex items-center justify-center">
-                    <div class="text-center">
-                        <span class="text-blue-500 font-black tracking-[0.5em] uppercase text-xs">Paso 02</span>
-                        <h2 class="text-6xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">WEB APPS</h2>
-                    </div>
-                </div>
-                <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
-                    <div class="text-center">
-                        <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 03</span>
-                        <h2 class="text-6xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">FUNNELS</h2>
-                    </div>
+                    <h2 class="text-6xl md:text-[10rem] font-black text-white">WEB APPS</h2>
                 </div>
             </div>
         </section>
     </div>
 
-    <section class="py-24 md:py-40" id="sobre-mi">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16 md:gap-24">
-            <div class="w-full md:w-1/2 reveal">
-                <div class="p-4 glass-card rounded-[3rem] md:rounded-[4rem] img-shader-container">
-                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" class="rounded-[2.2rem] md:rounded-[3.2rem] grayscale">
-                </div>
-            </div>
-            <div class="w-full md:w-1/2 reveal">
-                <span class="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px]">El Arquitecto Digital</span>
-                <h2 class="text-4xl md:text-7xl font-black text-white mt-6 mb-10 leading-[1.1]">Obsesionado <br>con resultados.</h2>
-                <p class="text-lg md:text-xl text-slate-400 mb-10 font-light">Soy Joshua Rengifo, elimino la fricción técnica para que tu negocio escale.</p>
-                <div class="p-6 glass-card rounded-2xl border-l-4 border-orange-500 font-bold tracking-widest uppercase text-sm">Estrategia Directa</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contacto" class="py-20 md:py-40"> 
-        <div class="max-w-4xl mx-auto px-4 md:px-6 reveal"> 
-            <div class="glass-card p-8 md:p-32 rounded-[3rem] md:rounded-[5rem] text-center">
-                <h2 class="text-4xl sm:text-6xl md:text-[6rem] font-black text-white mb-8 md:mb-12 tracking-tighter leading-tight">¿Escalamos <br>tu visión?</h2>
-                <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
-                    <input id="nombre" type="text" required placeholder="Nombre" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-2xl text-white outline-none focus:border-orange-500">
-                    <select id="servicio" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-2xl text-white/50 outline-none appearance-none">
-                        <option value="Landing Page" class="bg-slate-900">Landing Page Pro</option>
-                        <option value="Web App" class="bg-slate-900">Web App / CRM</option>
-                    </select>
-                    <button type="submit" class="magnetic w-full bg-orange-500 text-white py-5 rounded-2xl text-lg font-black transition-transform active:scale-95">Hablemos ahora <i class="fab fa-whatsapp ml-2"></i></button>
+    <section id="contacto" class="py-20">
+        <div class="max-w-4xl mx-auto px-6 reveal">
+            <div class="glass-card p-8 md:p-32 rounded-[3rem] text-center">
+                <h2 class="text-4xl md:text-[6rem] font-black text-white mb-8">¿Escalamos?</h2>
+                <form id="whatsappForm" class="max-w-md mx-auto space-y-4">
+                    <input id="nombre" type="text" required placeholder="Nombre" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-2xl text-white outline-none">
+                    <button type="submit" class="w-full bg-orange-500 text-white py-5 rounded-2xl font-black">Hablemos ahora</button>
                 </form>
             </div>
         </div>
     </section>
 
     <script>
-        // Scripts de animación iguales al anterior...
+        // --- CORE GSAP ---
+        gsap.registerPlugin(ScrollTrigger);
+
+        // --- EFECTO 3D SCROLL (NUEVO) ---
+        gsap.to("#object-3d-scroll", {
+            scrollTrigger: {
+                trigger: ".perspective-container",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.5,
+            },
+            rotateY: 40,
+            rotateX: -15,
+            z: 150,
+            x: 30,
+            ease: "none"
+        });
+
+        // --- PRELOADER ---
+        window.addEventListener('load', () => {
+            gsap.to("#preloader-bar", { width: "100%", duration: 0.8 });
+            gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 0.5, ease: "expo.inOut" });
+        });
+
+        // --- LENIS ---
+        const lenis = new Lenis({ lerp: 0.05 });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // --- CANVAS BACKGROUND ---
         const canvas = document.getElementById('code-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const codeLines = ["<div>", "const joshua = true", "npm run build", "gsap.to()", "ROI++", "010101", "<body>"];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resize);
-        resize();
-
+        const codeLines = ["<div>", "ROI++", "gsap.to()", "010101"];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resize); resize();
         class Particle {
             constructor() { this.init(); }
             init() {
@@ -297,61 +253,10 @@
         }
         animate();
 
-        gsap.registerPlugin(ScrollTrigger);
-
-        gsap.to("#main-image-3d", {
-            scrollTrigger: {
-                trigger: "header",
-                start: "top top",
-                end: "bottom center",
-                scrub: 1
-            },
-            rotationY: 20,
-            rotationX: 5,
-            scale: 1.02,
-            ease: "none"
-        });
-
-        window.addEventListener('load', () => {
-            gsap.to("#preloader-bar", { width: "100%", duration: 0.8 });
-            gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 0.5, ease: "expo.inOut", onComplete: () => {
-                document.getElementById('preloader').remove();
-            }});
-        });
-
-        const lenis = new Lenis({ lerp: 0.05 });
-        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
-        requestAnimationFrame(raf);
-
-        const nav = document.getElementById('navbar');
-        let lastScrollY = window.scrollY;
-        window.addEventListener('scroll', () => {
-            if (lastScrollY < window.scrollY && window.scrollY > 150) {
-                gsap.to(nav, { yPercent: -100, duration: 0.5 });
-            } else {
-                gsap.to(nav, { yPercent: 0, duration: 0.5 });
-            }
-            lastScrollY = window.scrollY;
-        });
-
-        const dot = document.getElementById('cursor-dot');
-        const follower = document.getElementById('cursor-follower');
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.1 });
-            gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6, ease: "power3.out" });
-        });
-
-        document.querySelectorAll('.magnetic').forEach(el => {
-            el.addEventListener('mousemove', (e) => {
-                const rect = el.getBoundingClientRect();
-                gsap.to(el, { x: (e.clientX - rect.left - rect.width/2)*0.2, y: (e.clientY - rect.top - rect.height/2)*0.2, duration: 0.4 });
-            });
-            el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6 }));
-        });
-
-        let sections = gsap.utils.toArray(".horizontal-item");
-        gsap.to(sections, {
-            xPercent: -100 * (sections.length - 1),
+        // --- HORIZONTAL SCROLL ---
+        let items = gsap.utils.toArray(".horizontal-item");
+        gsap.to(items, {
+            xPercent: -100 * (items.length - 1),
             ease: "none",
             scrollTrigger: {
                 trigger: "#soluciones",
@@ -361,15 +266,23 @@
             }
         });
 
-        document.querySelectorAll('.reveal').forEach((el) => {
-            gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 95%" }});
+        // --- CURSOR & REVEALS ---
+        const dot = document.getElementById('cursor-dot');
+        const follower = document.getElementById('cursor-follower');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.1 });
+            gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6 });
         });
 
-        gsap.to(".marquee-content", { xPercent: -33.33, ease: "none", duration: 15, repeat: -1 });
+        document.querySelectorAll('.reveal').forEach((el) => {
+            gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, scrollTrigger: { trigger: el, start: "top 95%" }});
+        });
+
+        gsap.to(".marquee-content", { xPercent: -50, ease: "none", duration: 15, repeat: -1 });
 
         document.getElementById('whatsappForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const msg = `Hola Joshua! Soy ${document.getElementById('nombre').value}. Me interesa: ${document.getElementById('servicio').value}.`;
+            const msg = `Hola Joshua! Soy ${document.getElementById('nombre').value}.`;
             window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(msg)}`, '_blank');
         });
     </script>
