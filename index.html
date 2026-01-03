@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
+    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.28/build/spline-viewer.js"></script>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
@@ -21,6 +22,7 @@
             --border: rgba(255, 255, 255, 0.08);
         }
 
+        /* Preloader */
         #preloader {
             position: fixed;
             inset: 0;
@@ -40,10 +42,20 @@
             @media (min-width: 768px) { cursor: none; }
         }
 
+        /* Fondo de Código y Spline */
         #code-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none; opacity: 0.3;
+            z-index: -1; pointer-events: none; opacity: 0.2;
+        }
+
+        #spline-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 2s ease;
         }
 
         .glass-card {
@@ -54,18 +66,12 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- ESTILOS 3D SCROLL --- */
-        .perspective-container {
-            perspective: 2000px;
-        }
-        #object-3d-scroll {
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
+        /* --- ESTILOS 3D --- */
+        .perspective-container { perspective: 2000px; }
+        .object-3d-scroll { transform-style: preserve-3d; will-change: transform; }
 
         #cursor-dot { width: 6px; height: 6px; background: var(--naranja); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100001; display: none; }
         #cursor-follower { width: 45px; height: 45px; border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; display: none; }
-        
         @media (min-width: 768px) { #cursor-dot, #cursor-follower { display: block; } }
 
         .gradient-text {
@@ -81,21 +87,29 @@
         .horizontal-container { display: flex; width: 300%; will-change: transform; }
         ::-webkit-scrollbar { display: none; }
         #navbar { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+
+        .img-shader-container { overflow: hidden; position: relative; }
+        .img-shader-container img { transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
+        .img-shader-container:hover img { transform: scale(1.05); }
     </style>
 </head>
 <body class="lenis-smooth">
 
     <canvas id="code-canvas"></canvas>
-
+    
     <div id="preloader">
         <div class="w-24 h-[1px] bg-white/10 relative overflow-hidden">
             <div id="preloader-bar" class="absolute inset-y-0 left-0 bg-orange-500 w-0"></div>
         </div>
-        <span class="text-[10px] tracking-[0.5em] text-white/40 mt-4 uppercase">Compilando Experiencia</span>
+        <span class="text-[10px] tracking-[0.5em] text-white/40 mt-4 uppercase">Iniciando Sistema 3D</span>
     </div>
 
     <div id="cursor-dot"></div>
     <div id="cursor-follower"></div>
+
+    <div id="spline-bg">
+        <spline-viewer url="https://prod.spline.design/6Wq1Q7YEBQuM1S4a/scene.splinecode"></spline-viewer>
+    </div>
 
     <a href="https://wa.me/5493541214553?text=Hola%20Joshua" class="whatsapp-float fixed bottom-8 right-8 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl z-[90] shadow-2xl transition-all hover:scale-110 active:scale-95">
         <i class="fab fa-whatsapp text-white"></i>
@@ -104,65 +118,81 @@
     <nav class="fixed w-full z-[100] border-b border-white/5" id="navbar">
         <div class="absolute inset-0 bg-[#030712]/80 backdrop-blur-xl"></div>
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between relative z-10">
-            <div class="font-black text-xl tracking-tighter text-white">JOSHUA <span class="text-orange-500">RENGIFO</span></div>
+            <div class="font-black text-xl tracking-tighter text-white">
+                JOSHUA <span class="text-orange-500">RENGIFO</span>
+            </div>
             <div class="hidden md:flex gap-10 text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">
                 <a href="#soluciones" class="hover:text-orange-500 transition-colors">Soluciones</a>
                 <a href="#sobre-mi" class="hover:text-orange-500 transition-colors">Perfil</a>
                 <a href="#contacto" class="hover:text-orange-500 transition-colors">Contacto</a>
             </div>
-            <a href="#contacto" class="magnetic bg-orange-500 text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full font-black text-[9px] md:text-[10px] tracking-widest">AGENDAR CONSULTA</a>
+            <a href="#contacto" class="magnetic bg-orange-500 text-white px-6 py-2.5 rounded-full font-black text-[10px] tracking-widest shadow-lg shadow-orange-500/20">
+                AGENDAR CONSULTA
+            </a>
         </div>
     </nav>
 
-    <header class="relative min-h-screen pt-40 pb-32 flex items-center overflow-hidden">
+    <header class="relative min-h-screen pt-40 pb-32 flex items-center overflow-hidden perspective-container">
         <div class="max-w-7xl mx-auto px-6 relative z-10">
             <div class="flex flex-col md:flex-row items-center gap-16">
                 <div class="md:w-3/5 text-center md:text-left reveal">
                     <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-card text-orange-400 text-[10px] font-bold mb-8 tracking-[0.3em] uppercase">
-                        <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-ping"></span>Soluciones Tecnológicas High-End
+                        <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-ping"></span>
+                        Soluciones Tecnológicas High-End
                     </div>
-                    <h1 class="text-5xl md:text-[7rem] font-black mb-8 leading-[0.9] tracking-tighter text-white">Vende más con <br><span class="gradient-text">Ingeniería Web</span></h1>
-                    <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-xl font-light">Transformo negocios estancados en ecosistemas digitales de alta conversión mediante código limpio.</p>
-                    <a href="#contacto" class="magnetic inline-block bg-white text-black px-12 py-6 rounded-2xl text-lg font-black hover:bg-orange-500 hover:text-white transition-all duration-500">Iniciar Proyecto</a>
+                    <h1 class="text-6xl md:text-[7rem] font-black mb-8 leading-[0.9] tracking-tighter text-white">
+                        Vende más con <br>
+                        <span class="gradient-text">Ingeniería Web</span>
+                    </h1>
+                    <p class="text-xl text-slate-400 mb-10 max-w-xl leading-relaxed font-light">
+                        Transformo negocios estancados en ecosistemas digitales de alta conversión mediante código limpio y estrategia de ventas.
+                    </p>
+                    <a href="#contacto" class="magnetic inline-block bg-white text-black px-12 py-6 rounded-2xl text-lg font-black hover:bg-orange-500 hover:text-white transition-all duration-500">
+                        Iniciar Proyecto
+                    </a>
                 </div>
+
                 <div class="md:w-2/5 relative reveal">
-                    <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container overflow-visible">
-                        <img id="main-image-3d" src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" class="rounded-[2.5rem] shadow-2xl grayscale group-hover:grayscale-0">
+                    <div class="object-3d-scroll">
+                        <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container">
+                            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" 
+                                 class="rounded-[2.5rem] shadow-2xl grayscale group-hover:grayscale-0">
+                            <div class="absolute -bottom-6 -left-6 p-8 glass-card rounded-3xl border border-white/20">
+                                <p class="text-4xl font-black text-orange-500">+150%</p>
+                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ROI Promedio</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="marquee py-2 md:py-4 overflow-hidden" id="marquee">
-        <div class="marquee-content flex gap-10 md:gap-20 text-[10px] md:text-base">
+    <div class="marquee py-4" id="marquee">
+        <div class="marquee-content flex gap-20">
             <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
             <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
         </div>
     </div>
 
-    <section class="py-32 md:py-60 perspective-container overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
-            <div class="reveal">
-                <span class="text-orange-500 font-black tracking-[0.3em] uppercase text-[10px]">Experiencia Visual</span>
-                <h2 class="text-5xl md:text-7xl font-black text-white mt-4 mb-8 leading-tight">Interacción <br><span class="text-orange-500">Inmersiva 3D</span></h2>
-                <p class="text-slate-400 text-xl font-light">Cada scroll es una respuesta. No solo construyo sitios, diseño entornos digitales que respiran y reaccionan al usuario.</p>
+    <section class="py-40 perspective-container" id="problemas">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-24 reveal">
+                <h2 class="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">Tu web actual podría estar <br><span class="text-orange-500">quemando dinero</span>.</h2>
+                <div class="w-20 h-[2px] bg-orange-500/30 mx-auto"></div>
             </div>
-            <div class="relative flex justify-center">
-                <div id="object-3d-scroll" class="glass-card p-4 rounded-[3rem] w-full max-w-sm md:max-w-md border border-white/10">
-                    <img src="https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=800" class="rounded-[2.5rem] shadow-2xl">
-                    <div class="absolute -top-6 -right-6 p-6 glass-card rounded-2xl border border-orange-500/50" style="transform: translateZ(50px);">
-                        <p class="text-orange-500 font-bold text-xs tracking-widest">MOTION 3D</p>
-                    </div>
+            <div class="grid md:grid-cols-2 gap-16">
+                <div class="p-12 rounded-[3rem] glass-card reveal group object-3d-scroll">
+                    <div class="w-16 h-16 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-8"><i class="fas fa-bolt text-2xl text-orange-500"></i></div>
+                    <h3 class="text-3xl font-bold mb-4 text-white">Carga Lenta</h3>
+                    <p class="text-slate-400 text-lg">Cada segundo de demora reduce la conversión un 7%.</p>
+                </div>
+                <div class="p-12 rounded-[3rem] glass-card reveal group object-3d-scroll">
+                    <div class="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8"><i class="fas fa-fingerprint text-2xl text-blue-500"></i></div>
+                    <h3 class="text-3xl font-bold mb-4 text-white">Sin Identidad</h3>
+                    <p class="text-slate-400 text-lg">Te doy la autoridad visual que tu negocio merece.</p>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="py-24" id="problemas">
-        <div class="max-w-5xl mx-auto px-6 text-center reveal">
-            <h2 class="text-4xl md:text-7xl font-black text-white mb-8">Tu web actual podría estar <br><span class="text-orange-500">quemando dinero</span>.</h2>
-            <div class="w-16 h-[1px] bg-orange-500/30 mx-auto"></div>
         </div>
     </section>
 
@@ -170,62 +200,86 @@
         <section class="bg-black overflow-hidden" id="soluciones">
             <div class="horizontal-container">
                 <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
-                    <h2 class="text-6xl md:text-[10rem] font-black text-white">LANDINGS</h2>
+                    <div class="text-center">
+                        <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 01</span>
+                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">LANDINGS</h2>
+                    </div>
                 </div>
                 <div class="horizontal-item bg-black w-screen h-screen flex items-center justify-center">
-                    <h2 class="text-6xl md:text-[10rem] font-black text-white">WEB APPS</h2>
+                    <div class="text-center">
+                        <span class="text-blue-500 font-black tracking-[0.5em] uppercase text-xs">Paso 02</span>
+                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">WEB APPS</h2>
+                    </div>
+                </div>
+                <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
+                    <div class="text-center">
+                        <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 03</span>
+                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">FUNNELS</h2>
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <section id="contacto" class="py-20">
-        <div class="max-w-4xl mx-auto px-6 reveal">
-            <div class="glass-card p-8 md:p-32 rounded-[3rem] text-center">
-                <h2 class="text-4xl md:text-[6rem] font-black text-white mb-8">¿Escalamos?</h2>
-                <form id="whatsappForm" class="max-w-md mx-auto space-y-4">
-                    <input id="nombre" type="text" required placeholder="Nombre" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-2xl text-white outline-none">
-                    <button type="submit" class="w-full bg-orange-500 text-white py-5 rounded-2xl font-black">Hablemos ahora</button>
+    <section class="py-40 perspective-container" id="sobre-mi">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-24">
+            <div class="w-full md:w-1/2 reveal">
+                <div class="p-4 glass-card rounded-[4rem] img-shader-container object-3d-scroll">
+                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" class="rounded-[3.2rem] grayscale">
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 reveal">
+                <span class="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px]">El Arquitecto Digital</span>
+                <h2 class="text-5xl md:text-7xl font-black text-white mt-6 mb-10 leading-[1.1]">Obsesionado <br>con resultados.</h2>
+                <p class="text-xl text-slate-400 mb-10 font-light">Soy Joshua Rengifo, elimino la fricción técnica para que tu negocio escale.</p>
+                <div class="p-6 glass-card rounded-2xl border-l-4 border-orange-500 font-bold tracking-widest uppercase text-sm">Estrategia Directa</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contacto" class="py-20 md:py-40"> 
+        <div class="max-w-4xl mx-auto px-4 md:px-6 reveal"> 
+            <div class="glass-card p-8 md:p-32 rounded-[3rem] md:rounded-[5rem] text-center">
+                <h2 class="text-4xl sm:text-6xl md:text-[6rem] font-black text-white mb-8 md:mb-12 tracking-tighter leading-tight">¿Escalamos <br>tu visión?</h2>
+                <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
+                    <input id="nombre" type="text" required placeholder="Nombre" 
+                        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none focus:border-orange-500 text-base md:text-lg">
+                    <select id="servicio" 
+                        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
+                        <option value="Landing Page" class="bg-slate-900">Landing Page Pro</option>
+                        <option value="Web App" class="bg-slate-900">Web App / CRM</option>
+                    </select>
+                    <button type="submit" 
+                        class="magnetic w-full bg-orange-500 text-white py-5 md:py-7 rounded-2xl text-lg md:text-xl font-black transition-transform active:scale-95">
+                        Hablemos ahora <i class="fab fa-whatsapp ml-2"></i>
+                    </button>
                 </form>
             </div>
         </div>
     </section>
 
     <script>
-        // --- CORE GSAP ---
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- EFECTO 3D SCROLL (NUEVO) ---
-        gsap.to("#object-3d-scroll", {
-            scrollTrigger: {
-                trigger: ".perspective-container",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 1.5,
-            },
-            rotateY: 40,
-            rotateX: -15,
-            z: 150,
-            x: 30,
-            ease: "none"
-        });
-
-        // --- PRELOADER ---
+        // 1. Preloader de Lujo
         window.addEventListener('load', () => {
             gsap.to("#preloader-bar", { width: "100%", duration: 0.8 });
-            gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 0.5, ease: "expo.inOut" });
+            gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 1, ease: "expo.inOut", onComplete: () => {
+                document.getElementById('preloader').remove();
+                document.getElementById('spline-bg').style.opacity = "0.6";
+            }});
         });
 
-        // --- LENIS ---
+        // 2. Lenis Scroll Suave
         const lenis = new Lenis({ lerp: 0.05 });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // --- CANVAS BACKGROUND ---
+        // 3. Canvas Background (Partículas de Código)
         const canvas = document.getElementById('code-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const codeLines = ["<div>", "ROI++", "gsap.to()", "010101"];
+        const codeLines = ["<div>", "ROI++", "gsap.to()", "010101", "3D_MODE"];
         function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize); resize();
         class Particle {
@@ -235,7 +289,7 @@
                 this.y = canvas.height + Math.random() * 100;
                 this.text = codeLines[Math.floor(Math.random() * codeLines.length)];
                 this.speed = 0.5 + Math.random() * 1.5;
-                this.opacity = Math.random() * 0.3;
+                this.opacity = Math.random() * 0.2;
             }
             draw() {
                 ctx.fillStyle = `rgba(249, 115, 22, ${this.opacity})`;
@@ -245,18 +299,63 @@
                 if (this.y < -50) this.init();
             }
         }
-        for(let i=0; i<30; i++) particles.push(new Particle());
-        function animate() {
+        for(let i=0; i<40; i++) particles.push(new Particle());
+        function animateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => p.draw());
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateCanvas);
         }
-        animate();
+        animateCanvas();
 
-        // --- HORIZONTAL SCROLL ---
-        let items = gsap.utils.toArray(".horizontal-item");
-        gsap.to(items, {
-            xPercent: -100 * (items.length - 1),
+        // 4. Efectos 3D al Scroll (vincular tarjetas)
+        document.querySelectorAll(".object-3d-scroll").forEach(obj => {
+            gsap.to(obj, {
+                scrollTrigger: {
+                    trigger: obj,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5,
+                },
+                rotateY: 25,
+                rotateX: -10,
+                z: 100,
+                ease: "none"
+            });
+        });
+
+        // 5. Navegación Inteligente
+        const nav = document.getElementById('navbar');
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            if (lastScrollY < window.scrollY && window.scrollY > 150) {
+                gsap.to(nav, { yPercent: -100, duration: 0.5 });
+            } else {
+                gsap.to(nav, { yPercent: 0, duration: 0.5 });
+            }
+            lastScrollY = window.scrollY;
+        });
+
+        // 6. Cursor Engine
+        const dot = document.getElementById('cursor-dot');
+        const follower = document.getElementById('cursor-follower');
+        window.addEventListener('mousemove', (e) => {
+            gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.1 });
+            gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6, ease: "power3.out" });
+        });
+
+        // 7. Magnéticos
+        document.querySelectorAll('.magnetic').forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                gsap.to(el, { x: (e.clientX - rect.left - rect.width/2)*0.3, y: (e.clientY - rect.top - rect.height/2)*0.3, duration: 0.4 });
+            });
+            el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6 }));
+        });
+
+        // 8. Scroll Horizontal
+        let sections = gsap.utils.toArray(".horizontal-item");
+        gsap.to(sections, {
+            xPercent: -100 * (sections.length - 1),
             ease: "none",
             scrollTrigger: {
                 trigger: "#soluciones",
@@ -266,23 +365,18 @@
             }
         });
 
-        // --- CURSOR & REVEALS ---
-        const dot = document.getElementById('cursor-dot');
-        const follower = document.getElementById('cursor-follower');
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.1 });
-            gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6 });
-        });
-
+        // 9. Reveals
         document.querySelectorAll('.reveal').forEach((el) => {
-            gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, scrollTrigger: { trigger: el, start: "top 95%" }});
+            gsap.fromTo(el, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1.5, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" }});
         });
 
-        gsap.to(".marquee-content", { xPercent: -50, ease: "none", duration: 15, repeat: -1 });
+        // 10. Marquee
+        gsap.to(".marquee-content", { xPercent: -50, ease: "none", duration: 20, repeat: -1 });
 
+        // WhatsApp Form
         document.getElementById('whatsappForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const msg = `Hola Joshua! Soy ${document.getElementById('nombre').value}.`;
+            const msg = `Hola Joshua! Soy ${document.getElementById('nombre').value}. Me interesa el servicio.`;
             window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(msg)}`, '_blank');
         });
     </script>
