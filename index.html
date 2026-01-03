@@ -9,7 +9,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.33/dist/lenis.min.js"></script>
-    <script type="module" src="https://unpkg.com/@splinetool/viewer@1.0.28/build/spline-viewer.js"></script>
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet">
@@ -22,7 +21,6 @@
             --border: rgba(255, 255, 255, 0.08);
         }
 
-        /* 1. Preloader de Lujo */
         #preloader {
             position: fixed;
             inset: 0;
@@ -34,7 +32,6 @@
             justify-content: center;
         }
 
-        /* 2. Estética Inmersiva */
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--azul-oscuro);
@@ -43,13 +40,16 @@
             cursor: none;
         }
 
-        #spline-bg {
+        /* Canvas de Código en el Fondo */
+        #code-canvas {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
             pointer-events: none;
-            opacity: 0;
-            transition: opacity 2s ease;
+            opacity: 0.3;
         }
 
         .glass-card {
@@ -60,10 +60,10 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* 3. Shaders & Image FX */
         .img-shader-container {
             overflow: hidden;
             position: relative;
+            perspective: 1000px;
         }
         
         .img-shader-container img {
@@ -71,12 +71,6 @@
             filter: brightness(0.8) contrast(1.1);
         }
 
-        .img-shader-container:hover img {
-            transform: scale(1.05) rotate(1deg);
-            filter: brightness(1) contrast(1.1);
-        }
-
-        /* Cursor - Z-index superior a la Nav */
         #cursor-dot { width: 6px; height: 6px; background: var(--naranja); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100001; }
         #cursor-follower { width: 45px; height: 45px; border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; }
 
@@ -91,31 +85,23 @@
 
         .marquee { background: var(--naranja); font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; }
         .horizontal-container { display: flex; width: 300%; will-change: transform; }
-        
-        /* Ocultar scrollbar */
         ::-webkit-scrollbar { display: none; }
-
-        /* Corrección de la Nav para que no ensucie */
-        #navbar {
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        #navbar { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
     </style>
 </head>
 <body class="lenis-smooth">
+
+    <canvas id="code-canvas"></canvas>
 
     <div id="preloader">
         <div class="w-24 h-[1px] bg-white/10 relative overflow-hidden">
             <div id="preloader-bar" class="absolute inset-y-0 left-0 bg-orange-500 w-0"></div>
         </div>
-        <span class="text-[10px] tracking-[0.5em] text-white/40 mt-4 uppercase">Cargando Experiencia</span>
+        <span class="text-[10px] tracking-[0.5em] text-white/40 mt-4 uppercase">Compilando Experiencia</span>
     </div>
 
     <div id="cursor-dot"></div>
     <div id="cursor-follower"></div>
-
-    <div id="spline-bg">
-        <spline-viewer url="https://prod.spline.design/6Wq1Q7YEBQuM1S4a/scene.splinecode"></spline-viewer>
-    </div>
 
     <a href="https://wa.me/5493541214553?text=Hola%20Joshua" class="whatsapp-float fixed bottom-8 right-8 bg-[#25D366] w-16 h-16 rounded-full flex items-center justify-center text-3xl z-[90] shadow-2xl transition-all hover:scale-110 active:scale-95">
         <i class="fab fa-whatsapp text-white"></i>
@@ -159,9 +145,9 @@
                 </div>
 
                 <div class="md:w-2/5 relative reveal">
-                    <div class="parallax-target" data-speed="0.1">
-                        <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container">
-                            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" 
+                    <div class="parallax-target">
+                        <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container overflow-visible">
+                            <img id="main-image-3d" src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" 
                                  class="rounded-[2.5rem] shadow-2xl grayscale group-hover:grayscale-0">
                             <div class="absolute -bottom-6 -left-6 p-8 glass-card rounded-3xl border border-white/20">
                                 <p class="text-4xl font-black text-orange-500">+150%</p>
@@ -243,62 +229,104 @@
         </div>
     </section>
 
-    <section id="contacto" class="py-20 md:py-40"> <div class="max-w-4xl mx-auto px-4 md:px-6 reveal"> <div class="glass-card p-8 md:p-32 rounded-[3rem] md:rounded-[5rem] text-center">
-            
-            <h2 class="text-4xl sm:text-6xl md:text-[6rem] font-black text-white mb-8 md:mb-12 tracking-tighter leading-tight">
-                ¿Escalamos <br>tu visión?
-            </h2>
-
-            <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
-                <input id="nombre" type="text" required placeholder="Nombre" 
-                    class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none focus:border-orange-500 text-base md:text-lg">
-                
-                <select id="servicio" 
-                    class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
-                    <option value="Landing Page" class="bg-slate-900">Landing Page Pro</option>
-                    <option value="Web App" class="bg-slate-900">Web App / CRM</option>
-                </select>
-
-                <button type="submit" 
-                    class="magnetic w-full bg-orange-500 text-white py-5 md:py-7 rounded-2xl text-lg md:text-xl font-black transition-transform active:scale-95">
-                    Hablemos ahora <i class="fab fa-whatsapp ml-2"></i>
-                </button>
-            </form>
+    <section id="contacto" class="py-20 md:py-40"> 
+        <div class="max-w-4xl mx-auto px-4 md:px-6 reveal"> 
+            <div class="glass-card p-8 md:p-32 rounded-[3rem] md:rounded-[5rem] text-center">
+                <h2 class="text-4xl sm:text-6xl md:text-[6rem] font-black text-white mb-8 md:mb-12 tracking-tighter leading-tight">¿Escalamos <br>tu visión?</h2>
+                <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
+                    <input id="nombre" type="text" required placeholder="Nombre" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-2xl text-white outline-none focus:border-orange-500">
+                    <select id="servicio" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-2xl text-white/50 outline-none appearance-none">
+                        <option value="Landing Page" class="bg-slate-900">Landing Page Pro</option>
+                        <option value="Web App" class="bg-slate-900">Web App / CRM</option>
+                    </select>
+                    <button type="submit" class="magnetic w-full bg-orange-500 text-white py-5 rounded-2xl text-lg font-black transition-transform active:scale-95">Hablemos ahora <i class="fab fa-whatsapp ml-2"></i></button>
+                </form>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
     <script>
-        // 1. Preloader
+        // 1. Canvas de Código
+        const canvas = document.getElementById('code-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const codeLines = ["<div>", "const joshua = true", "npm run build", "gsap.to()", "ROI++", "010101", "<body>"];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.init(); }
+            init() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.text = codeLines[Math.floor(Math.random() * codeLines.length)];
+                this.speed = 1 + Math.random() * 2;
+                this.opacity = Math.random() * 0.4;
+            }
+            draw() {
+                ctx.fillStyle = `rgba(249, 115, 22, ${this.opacity})`;
+                ctx.font = "12px monospace";
+                ctx.fillText(this.text, this.x, this.y);
+                this.y -= this.speed * (1 + window.scrollY * 0.003);
+                if (this.y < -50) this.init();
+            }
+        }
+        for(let i=0; i<40; i++) particles.push(new Particle());
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => p.draw());
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // 2. GSAP & Scroll
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animación 3D Imagen Hero al Scroll
+        gsap.to("#main-image-3d", {
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom center",
+                scrub: 1
+            },
+            rotationY: 35,
+            rotationX: 10,
+            scale: 1.05,
+            ease: "none"
+        });
+
+        // Preloader
         window.addEventListener('load', () => {
             gsap.to("#preloader-bar", { width: "100%", duration: 0.8 });
-            gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 1, ease: "expo.inOut", onComplete: () => {
+            gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 0.5, ease: "expo.inOut", onComplete: () => {
                 document.getElementById('preloader').remove();
-                document.getElementById('spline-bg').style.opacity = "0.6";
             }});
         });
 
-        // 2. Lenis
+        // Lenis
         const lenis = new Lenis({ lerp: 0.05 });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        gsap.registerPlugin(ScrollTrigger);
-
-        // 3. NAVEGACIÓN INTELIGENTE (Auto-hide y cristalinidad)
+        // Navbar
         const nav = document.getElementById('navbar');
         let lastScrollY = window.scrollY;
-
         window.addEventListener('scroll', () => {
             if (lastScrollY < window.scrollY && window.scrollY > 150) {
-                gsap.to(nav, { yPercent: -100, duration: 0.5, ease: "power2.inOut" });
+                gsap.to(nav, { yPercent: -100, duration: 0.5 });
             } else {
-                gsap.to(nav, { yPercent: 0, duration: 0.5, ease: "power2.out" });
+                gsap.to(nav, { yPercent: 0, duration: 0.5 });
             }
             lastScrollY = window.scrollY;
         });
 
-        // 4. Cursor Engine
+        // Cursor
         const dot = document.getElementById('cursor-dot');
         const follower = document.getElementById('cursor-follower');
         window.addEventListener('mousemove', (e) => {
@@ -306,7 +334,7 @@
             gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6, ease: "power3.out" });
         });
 
-        // 5. Magnéticos
+        // Magnéticos
         document.querySelectorAll('.magnetic').forEach(el => {
             el.addEventListener('mousemove', (e) => {
                 const rect = el.getBoundingClientRect();
@@ -315,7 +343,7 @@
             el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6 }));
         });
 
-        // 6. Scroll Horizontal
+        // Horizontal Scroll
         let sections = gsap.utils.toArray(".horizontal-item");
         gsap.to(sections, {
             xPercent: -100 * (sections.length - 1),
@@ -328,12 +356,12 @@
             }
         });
 
-        // 7. Reveals
+        // Reveals
         document.querySelectorAll('.reveal').forEach((el) => {
-            gsap.fromTo(el, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 1.5, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" }});
+            gsap.fromTo(el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.5, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" }});
         });
 
-        // 8. Marquee
+        // Marquee
         gsap.to(".marquee-content", { xPercent: -50, ease: "none", duration: 20, repeat: -1 });
 
         // WhatsApp
@@ -345,4 +373,3 @@
     </script>
 </body>
 </html>
-
