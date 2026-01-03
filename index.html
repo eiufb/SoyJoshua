@@ -37,10 +37,10 @@
             background-color: var(--azul-oscuro);
             color: #f8fafc;
             overflow-x: hidden;
-            cursor: none;
+            /* El cursor se oculta solo en PC para no afectar la experiencia táctil */
+            @media (min-width: 768px) { cursor: none; }
         }
 
-        /* Canvas de Código en el Fondo */
         #code-canvas {
             position: fixed;
             top: 0;
@@ -71,8 +71,12 @@
             filter: brightness(0.8) contrast(1.1);
         }
 
-        #cursor-dot { width: 6px; height: 6px; background: var(--naranja); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100001; }
-        #cursor-follower { width: 45px; height: 45px; border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; }
+        #cursor-dot { width: 6px; height: 6px; background: var(--naranja); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100001; display: none; }
+        #cursor-follower { width: 45px; height: 45px; border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 50%; position: fixed; pointer-events: none; z-index: 100000; display: none; }
+        
+        @media (min-width: 768px) {
+            #cursor-dot, #cursor-follower { display: block; }
+        }
 
         .gradient-text {
             background: linear-gradient(90deg, #fff, var(--naranja), #fff);
@@ -83,7 +87,15 @@
         }
         @keyframes shine { to { background-position: 200% center; } }
 
-        .marquee { background: var(--naranja); font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; }
+        /* Ajuste de la línea Marquee para que sea delgada en móvil */
+        .marquee { 
+            background: var(--naranja); 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em;
+            white-space: nowrap;
+        }
+
         .horizontal-container { display: flex; width: 300%; will-change: transform; }
         ::-webkit-scrollbar { display: none; }
         #navbar { transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -118,7 +130,7 @@
                 <a href="#sobre-mi" class="hover:text-orange-500 transition-colors">Perfil</a>
                 <a href="#contacto" class="hover:text-orange-500 transition-colors">Contacto</a>
             </div>
-            <a href="#contacto" class="magnetic bg-orange-500 text-white px-6 py-2.5 rounded-full font-black text-[10px] tracking-widest shadow-lg shadow-orange-500/20">
+            <a href="#contacto" class="magnetic bg-orange-500 text-white px-4 py-2 md:px-6 md:py-2.5 rounded-full font-black text-[9px] md:text-[10px] tracking-widest shadow-lg shadow-orange-500/20">
                 AGENDAR CONSULTA
             </a>
         </div>
@@ -132,11 +144,11 @@
                         <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-ping"></span>
                         Soluciones Tecnológicas High-End
                     </div>
-                    <h1 class="text-6xl md:text-[7rem] font-black mb-8 leading-[0.9] tracking-tighter text-white">
+                    <h1 class="text-5xl md:text-[7rem] font-black mb-8 leading-[0.9] tracking-tighter text-white">
                         Vende más con <br>
                         <span class="gradient-text">Ingeniería Web</span>
                     </h1>
-                    <p class="text-xl text-slate-400 mb-10 max-w-xl leading-relaxed font-light">
+                    <p class="text-lg md:text-xl text-slate-400 mb-10 max-w-xl leading-relaxed font-light">
                         Transformo negocios estancados en ecosistemas digitales de alta conversión mediante código limpio y estrategia de ventas.
                     </p>
                     <a href="#contacto" class="magnetic inline-block bg-white text-black px-12 py-6 rounded-2xl text-lg font-black hover:bg-orange-500 hover:text-white transition-all duration-500">
@@ -149,8 +161,8 @@
                         <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container overflow-visible">
                             <img id="main-image-3d" src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" 
                                  class="rounded-[2.5rem] shadow-2xl grayscale group-hover:grayscale-0">
-                            <div class="absolute -bottom-6 -left-6 p-8 glass-card rounded-3xl border border-white/20">
-                                <p class="text-4xl font-black text-orange-500">+150%</p>
+                            <div class="absolute -bottom-6 -left-6 p-6 md:p-8 glass-card rounded-3xl border border-white/20">
+                                <p class="text-3xl md:text-4xl font-black text-orange-500">+150%</p>
                                 <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ROI Promedio</p>
                             </div>
                         </div>
@@ -160,29 +172,30 @@
         </div>
     </header>
 
-    <div class="marquee py-4" id="marquee">
-        <div class="marquee-content flex gap-20">
+    <div class="marquee py-2 md:py-4 overflow-hidden" id="marquee">
+        <div class="marquee-content flex gap-10 md:gap-20 text-[10px] md:text-base">
+            <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
             <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
             <span>• ESTRATEGIA DIRECTA • CÓDIGO PREMIUM • CONVERSIÓN EXTREMA • SCALABILITY •</span>
         </div>
     </div>
 
-    <section class="py-40" id="problemas">
+    <section class="py-24 md:py-40" id="problemas">
         <div class="max-w-5xl mx-auto px-6">
-            <div class="text-center mb-24 reveal">
-                <h2 class="text-5xl md:text-7xl font-black text-white mb-8 leading-tight">Tu web actual podría estar <br><span class="text-orange-500">quemando dinero</span>.</h2>
-                <div class="w-20 h-[2px] bg-orange-500/30 mx-auto"></div>
+            <div class="text-center mb-16 md:mb-24 reveal">
+                <h2 class="text-4xl md:text-7xl font-black text-white mb-8 leading-tight">Tu web actual podría estar <br><span class="text-orange-500">quemando dinero</span>.</h2>
+                <div class="w-16 md:w-20 h-[1px] md:h-[2px] bg-orange-500/30 mx-auto"></div>
             </div>
-            <div class="grid md:grid-cols-2 gap-16">
-                <div class="p-12 rounded-[3rem] glass-card reveal group">
-                    <div class="w-16 h-16 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-8"><i class="fas fa-bolt text-2xl text-orange-500"></i></div>
-                    <h3 class="text-3xl font-bold mb-4 text-white">Carga Lenta</h3>
-                    <p class="text-slate-400 text-lg">Cada segundo de demora reduce la conversión un 7%.</p>
+            <div class="grid md:grid-cols-2 gap-8 md:gap-16">
+                <div class="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] glass-card reveal group">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-orange-500/10 flex items-center justify-center mb-8"><i class="fas fa-bolt text-xl md:text-2xl text-orange-500"></i></div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-white">Carga Lenta</h3>
+                    <p class="text-slate-400 text-base md:text-lg">Cada segundo de demora reduce la conversión un 7%.</p>
                 </div>
-                <div class="p-12 rounded-[3rem] glass-card reveal group">
-                    <div class="w-16 h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8"><i class="fas fa-fingerprint text-2xl text-blue-500"></i></div>
-                    <h3 class="text-3xl font-bold mb-4 text-white">Sin Identidad</h3>
-                    <p class="text-slate-400 text-lg">Te doy la autoridad visual que tu negocio merece.</p>
+                <div class="p-8 md:p-12 rounded-[2.5rem] md:rounded-[3rem] glass-card reveal group">
+                    <div class="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-blue-500/10 flex items-center justify-center mb-8"><i class="fas fa-fingerprint text-xl md:text-2xl text-blue-500"></i></div>
+                    <h3 class="text-2xl md:text-3xl font-bold mb-4 text-white">Sin Identidad</h3>
+                    <p class="text-slate-400 text-base md:text-lg">Te doy la autoridad visual que tu negocio merece.</p>
                 </div>
             </div>
         </div>
@@ -194,36 +207,36 @@
                 <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
                     <div class="text-center">
                         <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 01</span>
-                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">LANDINGS</h2>
+                        <h2 class="text-6xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">LANDINGS</h2>
                     </div>
                 </div>
                 <div class="horizontal-item bg-black w-screen h-screen flex items-center justify-center">
                     <div class="text-center">
                         <span class="text-blue-500 font-black tracking-[0.5em] uppercase text-xs">Paso 02</span>
-                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">WEB APPS</h2>
+                        <h2 class="text-6xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">WEB APPS</h2>
                     </div>
                 </div>
                 <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
                     <div class="text-center">
                         <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 03</span>
-                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">FUNNELS</h2>
+                        <h2 class="text-6xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">FUNNELS</h2>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 
-    <section class="py-40" id="sobre-mi">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-24">
+    <section class="py-24 md:py-40" id="sobre-mi">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-16 md:gap-24">
             <div class="w-full md:w-1/2 reveal">
-                <div class="p-4 glass-card rounded-[4rem] img-shader-container">
-                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" class="rounded-[3.2rem] grayscale">
+                <div class="p-4 glass-card rounded-[3rem] md:rounded-[4rem] img-shader-container">
+                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" class="rounded-[2.2rem] md:rounded-[3.2rem] grayscale">
                 </div>
             </div>
             <div class="w-full md:w-1/2 reveal">
                 <span class="text-orange-500 font-bold uppercase tracking-[0.4em] text-[10px]">El Arquitecto Digital</span>
-                <h2 class="text-5xl md:text-7xl font-black text-white mt-6 mb-10 leading-[1.1]">Obsesionado <br>con resultados.</h2>
-                <p class="text-xl text-slate-400 mb-10 font-light">Soy Joshua Rengifo, elimino la fricción técnica para que tu negocio escale.</p>
+                <h2 class="text-4xl md:text-7xl font-black text-white mt-6 mb-10 leading-[1.1]">Obsesionado <br>con resultados.</h2>
+                <p class="text-lg md:text-xl text-slate-400 mb-10 font-light">Soy Joshua Rengifo, elimino la fricción técnica para que tu negocio escale.</p>
                 <div class="p-6 glass-card rounded-2xl border-l-4 border-orange-500 font-bold tracking-widest uppercase text-sm">Estrategia Directa</div>
             </div>
         </div>
@@ -246,7 +259,7 @@
     </section>
 
     <script>
-        // 1. Canvas de Código
+        // Scripts de animación iguales al anterior...
         const canvas = document.getElementById('code-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -265,18 +278,18 @@
                 this.x = Math.random() * canvas.width;
                 this.y = canvas.height + Math.random() * 100;
                 this.text = codeLines[Math.floor(Math.random() * codeLines.length)];
-                this.speed = 1 + Math.random() * 2;
-                this.opacity = Math.random() * 0.4;
+                this.speed = 0.5 + Math.random() * 1.5;
+                this.opacity = Math.random() * 0.3;
             }
             draw() {
                 ctx.fillStyle = `rgba(249, 115, 22, ${this.opacity})`;
-                ctx.font = "12px monospace";
+                ctx.font = "10px monospace";
                 ctx.fillText(this.text, this.x, this.y);
-                this.y -= this.speed * (1 + window.scrollY * 0.003);
+                this.y -= this.speed;
                 if (this.y < -50) this.init();
             }
         }
-        for(let i=0; i<40; i++) particles.push(new Particle());
+        for(let i=0; i<30; i++) particles.push(new Particle());
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => p.draw());
@@ -284,10 +297,8 @@
         }
         animate();
 
-        // 2. GSAP & Scroll
         gsap.registerPlugin(ScrollTrigger);
 
-        // Animación 3D Imagen Hero al Scroll
         gsap.to("#main-image-3d", {
             scrollTrigger: {
                 trigger: "header",
@@ -295,13 +306,12 @@
                 end: "bottom center",
                 scrub: 1
             },
-            rotationY: 35,
-            rotationX: 10,
-            scale: 1.05,
+            rotationY: 20,
+            rotationX: 5,
+            scale: 1.02,
             ease: "none"
         });
 
-        // Preloader
         window.addEventListener('load', () => {
             gsap.to("#preloader-bar", { width: "100%", duration: 0.8 });
             gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 0.5, ease: "expo.inOut", onComplete: () => {
@@ -309,12 +319,10 @@
             }});
         });
 
-        // Lenis
         const lenis = new Lenis({ lerp: 0.05 });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // Navbar
         const nav = document.getElementById('navbar');
         let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
@@ -326,7 +334,6 @@
             lastScrollY = window.scrollY;
         });
 
-        // Cursor
         const dot = document.getElementById('cursor-dot');
         const follower = document.getElementById('cursor-follower');
         window.addEventListener('mousemove', (e) => {
@@ -334,16 +341,14 @@
             gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6, ease: "power3.out" });
         });
 
-        // Magnéticos
         document.querySelectorAll('.magnetic').forEach(el => {
             el.addEventListener('mousemove', (e) => {
                 const rect = el.getBoundingClientRect();
-                gsap.to(el, { x: (e.clientX - rect.left - rect.width/2)*0.3, y: (e.clientY - rect.top - rect.height/2)*0.3, duration: 0.4 });
+                gsap.to(el, { x: (e.clientX - rect.left - rect.width/2)*0.2, y: (e.clientY - rect.top - rect.height/2)*0.2, duration: 0.4 });
             });
             el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6 }));
         });
 
-        // Horizontal Scroll
         let sections = gsap.utils.toArray(".horizontal-item");
         gsap.to(sections, {
             xPercent: -100 * (sections.length - 1),
@@ -356,15 +361,12 @@
             }
         });
 
-        // Reveals
         document.querySelectorAll('.reveal').forEach((el) => {
-            gsap.fromTo(el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 1.5, ease: "expo.out", scrollTrigger: { trigger: el, start: "top 90%" }});
+            gsap.fromTo(el, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 1.2, ease: "power2.out", scrollTrigger: { trigger: el, start: "top 95%" }});
         });
 
-        // Marquee
-        gsap.to(".marquee-content", { xPercent: -50, ease: "none", duration: 20, repeat: -1 });
+        gsap.to(".marquee-content", { xPercent: -33.33, ease: "none", duration: 15, repeat: -1 });
 
-        // WhatsApp
         document.getElementById('whatsappForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const msg = `Hola Joshua! Soy ${document.getElementById('nombre').value}. Me interesa: ${document.getElementById('servicio').value}.`;
