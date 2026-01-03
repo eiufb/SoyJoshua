@@ -42,11 +42,12 @@
             @media (min-width: 768px) { cursor: none; }
         }
 
-        /* Fondo de Código y Spline */
+        /* Fondo de Código Mejorado */
         #code-canvas {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none; opacity: 0.2;
+            z-index: -1; pointer-events: none; 
+            opacity: 0.35; /* Un poco más visible para notar el 3D */
         }
 
         #spline-bg {
@@ -275,34 +276,51 @@
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // 3. Canvas Background (Partículas de Código)
+        // 3. Canvas Background: Lluvia de Código 3D Reactiva al Scroll
         const canvas = document.getElementById('code-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const codeLines = ["<div>", "ROI++", "gsap.to()", "010101", "3D_MODE"];
-        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-        window.addEventListener('resize', resize); resize();
-        class Particle {
+        const codeLines = ["<div>", "ROI++", "gsap.to()", "010101", "3D_MODE", "const", "<body>", "npm start", "optimize"];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class CodeParticle {
             constructor() { this.init(); }
             init() {
                 this.x = Math.random() * canvas.width;
-                this.y = canvas.height + Math.random() * 100;
+                this.y = Math.random() * canvas.height;
                 this.text = codeLines[Math.floor(Math.random() * codeLines.length)];
-                this.speed = 0.5 + Math.random() * 1.5;
-                this.opacity = Math.random() * 0.2;
+                this.depth = Math.random(); 
+                this.speedFactor = this.depth * 5; 
+                this.fontSize = 8 + (this.depth * 12); 
+                this.opacity = 0.1 + (this.depth * 0.3);
             }
-            draw() {
+            draw(scrollVelocity) {
+                // Movimiento base + reacción al scroll
+                this.y -= (scrollVelocity * this.speedFactor * 0.1) + (this.depth * 0.5);
+                if (this.y < -100) this.y = canvas.height + 100;
+                if (this.y > canvas.height + 100) this.y = -100;
+
                 ctx.fillStyle = `rgba(249, 115, 22, ${this.opacity})`;
-                ctx.font = "10px monospace";
+                ctx.font = `${this.fontSize}px monospace`;
                 ctx.fillText(this.text, this.x, this.y);
-                this.y -= this.speed;
-                if (this.y < -50) this.init();
             }
         }
-        for(let i=0; i<40; i++) particles.push(new Particle());
+
+        for(let i=0; i<60; i++) particles.push(new CodeParticle());
+
+        let lastScroll = 0;
         function animateCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => p.draw());
+            const currentScroll = window.pageYOffset;
+            const scrollVelocity = currentScroll - lastScroll;
+            lastScroll = currentScroll;
+            particles.forEach(p => p.draw(scrollVelocity));
             requestAnimationFrame(animateCanvas);
         }
         animateCanvas();
