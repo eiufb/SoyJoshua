@@ -130,36 +130,45 @@
         </div>
     </nav>
 
-    <header class="relative min-h-screen pt-40 pb-32 flex items-center overflow-hidden perspective-container">
-        <div class="max-w-7xl mx-auto px-6 relative z-10">
-            <div class="flex flex-col md:flex-row items-center gap-16">
-                <div class="md:w-3/5 text-center md:text-left reveal">
-                    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-card text-orange-400 text-[10px] font-bold mb-8 tracking-[0.3em] uppercase">
+   <header class="relative min-h-screen pt-40 pb-32 flex items-center justify-center overflow-hidden perspective-container">
+        <div class="absolute inset-0 z-0">
+            <video 
+                autoplay 
+                muted 
+                loop 
+                playsinline 
+                id="header-bg-video"
+                class="w-full h-[120%] object-cover opacity-70 scale-110 origin-top">
+                <source src="https://i.imgur.com/myxJfxT.mp4" type="video/mp4">
+            </video>
+            
+            <div class="absolute inset-0 bg-gradient-to-b from-[#030712]/60 via-transparent to-[#030712]"></div>
+            <div class="absolute inset-0 bg-[#030712]/20"></div> </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            <div class="flex flex-col items-center">
+                <div class="reveal">
+                    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full glass-card text-orange-400 text-[10px] font-bold mb-8 tracking-[0.3em] uppercase mx-auto">
                         <span class="flex h-1.5 w-1.5 rounded-full bg-orange-500 animate-ping"></span>
                         Sistemas de Alta Rentabilidad Digital
                     </div>
-                    <h1 class="text-6xl md:text-[7rem] font-black mb-8 leading-[0.9] tracking-tighter text-white">
+                    
+                    <h1 class="text-6xl md:text-[8rem] font-black mb-8 leading-[0.8] tracking-tighter text-white">
                         Menos fricción,<br>
                         <span class="gradient-text">Más ingresos</span>
                     </h1>
-                    <p class="text-xl text-slate-400 mb-10 max-w-xl leading-relaxed font-light">
-                        No construyo solo webs; diseño <strong>activos digitales</strong> que automatizan tus ventas y optimizan tus márgenes de ganancia mientras vos te enfocás en el crecimiento.
+                    
+                    <p class="text-xl md:text-2xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-lg">
+                        No construyo solo webs; diseño <strong>activos digitales</strong> que automatizan tus ventas y optimizan tus márgenes de ganancia.
                     </p>
-                    <a href="#contacto" class="magnetic inline-block bg-white text-black px-12 py-6 rounded-2xl text-lg font-black hover:bg-orange-500 hover:text-white transition-all duration-500">
-                        Diagnosticar mi negocio
-                    </a>
-                </div>
-
-                <div class="md:w-2/5 relative reveal">
-                    <div class="object-3d-scroll">
-                        <div class="relative group p-4 glass-card rounded-[3.5rem] img-shader-container">
-                            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=800" 
-                                 class="rounded-[2.5rem] shadow-2xl grayscale group-hover:grayscale-0">
-                            <div class="absolute -bottom-6 -left-6 p-8 glass-card rounded-3xl border border-white/20">
-                                <p class="text-4xl font-black text-orange-500">+150%</p>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ROI Promedio</p>
-                            </div>
-                        </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                        <a href="#contacto" class="magnetic inline-block bg-orange-500 text-white px-12 py-6 rounded-2xl text-lg font-black hover:bg-white hover:text-black transition-all duration-500 shadow-xl shadow-orange-500/20">
+                            Diagnosticar mi negocio
+                        </a>
+                        <a href="#soluciones" class="magnetic inline-block glass-card text-white px-12 py-6 rounded-2xl text-lg font-black hover:bg-white/10 transition-all duration-500">
+                            Ver Estrategias
+                        </a>
                     </div>
                 </div>
             </div>
@@ -273,6 +282,18 @@
         const lenis = new Lenis({ lerp: 0.05 });
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
+
+        // --- EFECTO PARALLAX ACTUALIZADO PARA VIDEO ---
+        gsap.to("#header-bg-video", {
+            yPercent: 30, 
+            ease: "none",
+            scrollTrigger: {
+                trigger: "header",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
 
         const canvas = document.getElementById('code-canvas');
         const ctx = canvas.getContext('2d');
