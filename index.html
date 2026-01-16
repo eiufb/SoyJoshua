@@ -130,7 +130,7 @@
         </div>
     </nav>
 
-   <header class="relative min-h-screen pt-40 pb-32 flex items-center justify-center overflow-hidden perspective-container">
+    <header class="relative min-h-screen pt-40 pb-32 flex items-center justify-center overflow-hidden perspective-container">
         <div class="absolute inset-0 z-0">
             <video 
                 autoplay 
@@ -142,8 +142,9 @@
                 <source src="https://i.imgur.com/myxJfxT.mp4" type="video/mp4">
             </video>
             
-            <div class="absolute inset-0 bg-gradient-to-b from-[#030712]/60 via-transparent to-[#030712]"></div>
-            <div class="absolute inset-0 bg-[#030712]/20"></div> </div>
+            <div class="absolute inset-0 bg-gradient-to-b from-[#030712]/50 via-transparent to-[#030712]"></div>
+            <div class="absolute inset-0 bg-[#030712]/10"></div> 
+        </div>
 
         <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
             <div class="flex flex-col items-center">
@@ -271,11 +272,19 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
+        // --- LÓGICA DE CARGA Y AUTOPLAY ---
         window.addEventListener('load', () => {
+            const video = document.getElementById('header-bg-video');
+            
             gsap.to("#preloader-bar", { width: "100%", duration: 0.8 });
             gsap.to("#preloader", { yPercent: -100, duration: 1.2, delay: 1, ease: "expo.inOut", onComplete: () => {
                 document.getElementById('preloader').remove();
                 document.getElementById('spline-bg').style.opacity = "0.6";
+                
+                // Forzar play del video justo cuando el preloader desaparece
+                if (video) {
+                    video.play().catch(error => console.log("Autoplay preventivo activado"));
+                }
             }});
         });
 
@@ -283,7 +292,7 @@
         function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
         requestAnimationFrame(raf);
 
-        // --- EFECTO PARALLAX ACTUALIZADO PARA VIDEO ---
+        // --- EFECTO PARALLAX VIDEO ---
         gsap.to("#header-bg-video", {
             yPercent: 30, 
             ease: "none",
