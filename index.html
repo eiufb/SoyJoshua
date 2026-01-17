@@ -470,7 +470,7 @@
                 urgencia: document.getElementById('urgencia').value
             };
 
-            btn.innerHTML = '<i class="fas fa-robot animate-spin mr-2"></i> CALCULANDO RENTABILIDAD...';
+            btn.innerHTML = '<i class="fas fa-robot animate-spin mr-2"></i> ANALIZANDO CONSULTORÍA...';
             btn.disabled = true;
 
             try {
@@ -482,22 +482,15 @@
 
                 const data = await response.json();
 
-                // Construcción de mensaje para WhatsApp con los nuevos datos
-                const msg = `SISTEMA SERN: Auditoría Iniciada\n` +
-                            `--------------------------\n` +
-                            `🆔 ID: ${data.id}\n` +
-                            `👤 Cliente: ${data.usuario}\n` +
-                            `🛠 Servicio: ${datos.tipoServicio}\n` +
-                            `💰 Presupuesto: ${datos.presupuesto}\n` +
-                            `⏳ Urgencia: ${datos.urgencia}\n` +
-                            `🔥 Prioridad: ${data.prioridad || 'ALTA'}\n` +
-                            `📊 Score IA: ${data.score || 'PROCESANDO'}`;
+                // Usamos el mensaje procesado por Java o construimos el formato exacto
+                const msg = data.mensaje || `Hola Joshua! Soy ${datos.usuario}. Me interesa el servicio de ${datos.tipoServicio} y quiero una consultoría.`;
                 
                 window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(msg)}`, '_blank');
 
             } catch (error) {
                 console.error("Failsafe activado:", error);
-                const fallbackMsg = `Joshua, quiero un diagnóstico.\nNombre: ${datos.usuario}\nServicio: ${datos.tipoServicio}\nPresupuesto: ${datos.presupuesto}`;
+                // Si falla el servidor, igual enviamos el formato profesional que pediste
+                const fallbackMsg = `Hola Joshua! Soy ${datos.usuario}. Me interesa el servicio de ${datos.tipoServicio} y quiero una consultoría.`;
                 window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(fallbackMsg)}`, '_blank');
             } finally {
                 btn.innerHTML = originalText;
@@ -508,3 +501,4 @@
     </script>
 </body>
 </html>
+
