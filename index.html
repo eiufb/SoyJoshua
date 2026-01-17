@@ -248,26 +248,39 @@
         </div>
     </section>
 
-    <section id="contacto" class="py-20 md:py-40"> 
-        <div class="max-w-4xl mx-auto px-4 md:px-6 reveal"> 
-            <div class="glass-card p-8 md:p-32 rounded-[3rem] md:rounded-[5rem] text-center">
-                <h2 class="text-4xl sm:text-6xl md:text-[6rem] font-black text-white mb-8 md:mb-12 tracking-tighter leading-tight">¿Hacemos tu negocio <br>escalable?</h2>
-                <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
-                    <input id="nombre" type="text" required placeholder="Tu Nombre / Empresa" 
-                        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none focus:border-orange-500 text-base md:text-lg">
-                    <select id="servicio" 
-                        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
-                        <option value="Landing Page" class="bg-slate-900">Landing de Alta Conversión</option>
-                        <option value="Web App" class="bg-slate-900">Automatización de Procesos</option>
-                    </select>
-                    <button type="submit" 
-                        class="magnetic w-full bg-orange-500 text-white py-5 md:py-7 rounded-2xl text-lg md:text-xl font-black transition-transform active:scale-95">
-                        INICIAR CONSULTORÍA <i class="fab fa-whatsapp ml-2"></i>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
+    <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
+    <input id="nombre" type="text" required placeholder="Tu Nombre / Empresa" 
+        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none focus:border-orange-500 text-base md:text-lg">
+    
+    <select id="servicio" 
+        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
+        <option value="" disabled selected>¿Qué solución buscas?</option>
+        <option value="Landing Page" class="bg-slate-900">Landing de Alta Conversión</option>
+        <option value="Web App" class="bg-slate-900">Automatización (Cerebro Java)</option>
+        <option value="Ecosistema" class="bg-slate-900">Ecosistema de Ventas Full</option>
+    </select>
+
+    <select id="presupuesto" required
+        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
+        <option value="" disabled selected>Presupuesto del proyecto</option>
+        <option value="Bajo" class="bg-slate-900">Menos de $1,000 USD</option>
+        <option value="Medio" class="bg-slate-900">$1,000 - $3,000 USD</option>
+        <option value="Alto" class="bg-slate-900">Más de $3,000 USD</option>
+    </select>
+
+    <select id="urgencia" required
+        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
+        <option value="" disabled selected>¿Para cuándo lo necesitas?</option>
+        <option value="Inmediato" class="bg-slate-900">Lo necesito YA (Urgente)</option>
+        <option value="Pronto" class="bg-slate-900">Próximas 2-4 semanas</option>
+        <option value="Explorando" class="bg-slate-900">Solo estoy cotizando</option>
+    </select>
+
+    <button type="submit" 
+        class="magnetic w-full bg-orange-500 text-white py-5 md:py-7 rounded-2xl text-lg md:text-xl font-black transition-transform active:scale-95 shadow-xl shadow-orange-500/20">
+        SOLICITAR ANÁLISIS IA <i class="fab fa-whatsapp ml-2"></i>
+    </button>
+</form>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
@@ -454,3 +467,4 @@
     </script>
 </body>
 </html>
+
