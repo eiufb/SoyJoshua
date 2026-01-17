@@ -89,6 +89,21 @@
         .img-shader-container { overflow: hidden; position: relative; }
         .img-shader-container img { transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1); }
         .img-shader-container:hover img { transform: scale(1.05); }
+
+        /* Optimización de Video Responsivo */
+        .video-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        #header-bg-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body class="lenis-smooth">
@@ -131,19 +146,18 @@
     </nav>
 
     <header class="relative min-h-screen pt-40 pb-32 flex items-center justify-center overflow-hidden perspective-container">
-        <div class="absolute inset-0 z-0">
+        <div class="video-wrapper">
             <video 
                 autoplay 
                 muted 
                 loop 
                 playsinline 
                 id="header-bg-video"
-                class="w-full h-[120%] object-cover opacity-70 scale-110 origin-top">
+                poster="https://i.imgur.com/myxJfxT.png"
+                class="opacity-70">
                 <source src="https://i.imgur.com/myxJfxT.mp4" type="video/mp4">
             </video>
-            
             <div class="absolute inset-0 bg-gradient-to-b from-[#030712]/50 via-transparent to-[#030712]"></div>
-            <div class="absolute inset-0 bg-[#030712]/10"></div> 
         </div>
 
         <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
@@ -154,12 +168,12 @@
                         Sistemas de Alta Rentabilidad Digital
                     </div>
                     
-                    <h1 class="text-6xl md:text-[8rem] font-black mb-8 leading-[0.8] tracking-tighter text-white">
+                    <h1 class="text-5xl md:text-[8rem] font-black mb-8 leading-[0.8] tracking-tighter text-white">
                         Menos fricción,<br>
                         <span class="gradient-text">Más ingresos</span>
                     </h1>
                     
-                    <p class="text-xl md:text-2xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-lg">
+                    <p class="text-lg md:text-2xl text-slate-200 mb-10 max-w-3xl mx-auto leading-relaxed font-light drop-shadow-lg">
                         No construyo solo webs; diseño <strong>activos digitales</strong> que automatizan tus ventas y optimizan tus márgenes de ganancia.
                     </p>
                     
@@ -208,21 +222,21 @@
         <section class="bg-black overflow-hidden" id="soluciones">
             <div class="horizontal-container">
                 <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
-                    <div class="text-center">
+                    <div class="text-center px-4">
                         <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 01</span>
-                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">CAPTACIÓN</h2>
+                        <h2 class="text-5xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">CAPTACIÓN</h2>
                     </div>
                 </div>
                 <div class="horizontal-item bg-black w-screen h-screen flex items-center justify-center">
-                    <div class="text-center">
+                    <div class="text-center px-4">
                         <span class="text-blue-500 font-black tracking-[0.5em] uppercase text-xs">Paso 02</span>
-                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">ORDEN</h2>
+                        <h2 class="text-5xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">ORDEN</h2>
                     </div>
                 </div>
                 <div class="horizontal-item bg-[#030712] w-screen h-screen flex items-center justify-center">
-                    <div class="text-center">
+                    <div class="text-center px-4">
                         <span class="text-orange-500 font-black tracking-[0.5em] uppercase text-xs">Paso 03</span>
-                        <h2 class="text-7xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">ESCALA</h2>
+                        <h2 class="text-5xl md:text-[10rem] font-black text-white mt-8 tracking-tighter">ESCALA</h2>
                     </div>
                 </div>
             </div>
@@ -233,7 +247,7 @@
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-24">
             <div class="w-full md:w-1/2 reveal">
                 <div class="p-4 glass-card rounded-[4rem] img-shader-container object-3d-scroll">
-                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" class="rounded-[3.2rem] grayscale">
+                    <img src="https://eiufb.github.io/SoyJoshua/7771020e-b478-4cf5-93fa-0e9bdacba366.jfif" class="rounded-[3.2rem] grayscale w-full">
                 </div>
             </div>
             <div class="w-full md:w-1/2 reveal">
@@ -248,44 +262,52 @@
         </div>
     </section>
 
-    <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
-    <input id="nombre" type="text" required placeholder="Tu Nombre / Empresa" 
-        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none focus:border-orange-500 text-base md:text-lg">
-    
-    <select id="servicio" 
-        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
-        <option value="" disabled selected>¿Qué solución buscas?</option>
-        <option value="Landing Page" class="bg-slate-900">Landing de Alta Conversión</option>
-        <option value="Web App" class="bg-slate-900">Automatización (Cerebro Java)</option>
-        <option value="Ecosistema" class="bg-slate-900">Ecosistema de Ventas Full</option>
-    </select>
+    <section id="contacto" class="py-40 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-6 reveal">
+            <div class="glass-card p-8 md:p-24 rounded-[3rem] md:rounded-[5rem] text-center">
+                <h2 class="text-4xl md:text-6xl font-black text-white mb-12 tracking-tighter">Inicia tu <span class="text-orange-500">Auditoría Sern</span></h2>
+                
+                <form id="whatsappForm" class="max-w-md mx-auto space-y-4 md:space-y-6">
+                    <input id="nombre" type="text" required placeholder="Tu Nombre / Empresa" 
+                        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none focus:border-orange-500 text-base md:text-lg">
+                    
+                    <select id="servicio" required
+                        class="w-full bg-white/10 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none text-base md:text-lg appearance-none">
+                        <option value="" disabled selected class="text-slate-900">¿Qué solución buscas?</option>
+                        <option value="Landing Page" class="bg-slate-900">Landing de Alta Conversión</option>
+                        <option value="Web App" class="bg-slate-900">Automatización (Cerebro Java)</option>
+                        <option value="Ecosistema" class="bg-slate-900">Ecosistema de Ventas Full</option>
+                    </select>
 
-    <select id="presupuesto" required
-        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
-        <option value="" disabled selected>Presupuesto del proyecto</option>
-        <option value="Bajo" class="bg-slate-900">Menos de $1,000 USD</option>
-        <option value="Medio" class="bg-slate-900">$1,000 - $3,000 USD</option>
-        <option value="Alto" class="bg-slate-900">Más de $3,000 USD</option>
-    </select>
+                    <select id="presupuesto" required
+                        class="w-full bg-white/10 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none text-base md:text-lg appearance-none">
+                        <option value="" disabled selected class="text-slate-900">Presupuesto del proyecto</option>
+                        <option value="Bajo" class="bg-slate-900">Menos de $1,000 USD</option>
+                        <option value="Medio" class="bg-slate-900">$1,000 - $3,000 USD</option>
+                        <option value="Alto" class="bg-slate-900">Más de $3,000 USD</option>
+                    </select>
 
-    <select id="urgencia" required
-        class="w-full bg-white/5 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white/50 outline-none text-base md:text-lg appearance-none">
-        <option value="" disabled selected>¿Para cuándo lo necesitas?</option>
-        <option value="Inmediato" class="bg-slate-900">Lo necesito YA (Urgente)</option>
-        <option value="Pronto" class="bg-slate-900">Próximas 2-4 semanas</option>
-        <option value="Explorando" class="bg-slate-900">Solo estoy cotizando</option>
-    </select>
+                    <select id="urgencia" required
+                        class="w-full bg-white/10 border border-white/10 px-6 py-4 md:px-8 md:py-6 rounded-2xl text-white outline-none text-base md:text-lg appearance-none">
+                        <option value="" disabled selected class="text-slate-900">¿Para cuándo lo necesitas?</option>
+                        <option value="Inmediato" class="bg-slate-900">Lo necesito YA (Urgente)</option>
+                        <option value="Pronto" class="bg-slate-900">Próximas 2-4 semanas</option>
+                        <option value="Explorando" class="bg-slate-900">Solo estoy cotizando</option>
+                    </select>
 
-    <button type="submit" 
-        class="magnetic w-full bg-orange-500 text-white py-5 md:py-7 rounded-2xl text-lg md:text-xl font-black transition-transform active:scale-95 shadow-xl shadow-orange-500/20">
-        SOLICITAR ANÁLISIS IA <i class="fab fa-whatsapp ml-2"></i>
-    </button>
-</form>
+                    <button type="submit" 
+                        class="magnetic w-full bg-orange-500 text-white py-5 md:py-7 rounded-2xl text-lg md:text-xl font-black transition-transform active:scale-95 shadow-xl shadow-orange-500/20">
+                        SOLICITAR ANÁLISIS IA <i class="fab fa-whatsapp ml-2"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- LÓGICA DE CARGA Y AUTOPLAY ---
+        // --- LÓGICA DE CARGA Y AUTOPLAY SEGURO ---
         window.addEventListener('load', () => {
             const video = document.getElementById('header-bg-video');
             
@@ -294,8 +316,12 @@
                 document.getElementById('preloader').remove();
                 document.getElementById('spline-bg').style.opacity = "0.6";
                 
+                // Forzar reproducción de video después de interacción o carga
                 if (video) {
-                    video.play().catch(error => console.log("Autoplay preventivo activado"));
+                    video.play().catch(() => {
+                        console.log("Autoplay bloqueado. Intentando con clic.");
+                        document.addEventListener('click', () => video.play(), { once: true });
+                    });
                 }
             }});
         });
@@ -306,7 +332,7 @@
 
         // --- EFECTO PARALLAX VIDEO ---
         gsap.to("#header-bg-video", {
-            yPercent: 30, 
+            yPercent: 20, 
             ease: "none",
             scrollTrigger: {
                 trigger: "header",
@@ -316,6 +342,7 @@
             }
         });
 
+        // --- BACKGROUND CODE CANVAS ---
         const canvas = document.getElementById('code-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -363,6 +390,7 @@
         }
         animateCanvas();
 
+        // --- SCROLL 3D EFFECTS ---
         document.querySelectorAll(".object-3d-scroll").forEach(obj => {
             gsap.to(obj, {
                 scrollTrigger: {
@@ -378,6 +406,7 @@
             });
         });
 
+        // --- NAVBAR CONTROL ---
         const nav = document.getElementById('navbar');
         let lastScrollY = window.scrollY;
         window.addEventListener('scroll', () => {
@@ -389,13 +418,17 @@
             lastScrollY = window.scrollY;
         });
 
-        const dot = document.getElementById('cursor-dot');
-        const follower = document.getElementById('cursor-follower');
-        window.addEventListener('mousemove', (e) => {
-            gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.1 });
-            gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6, ease: "power3.out" });
-        });
+        // --- MOUSE TRACKER ---
+        if (window.innerWidth > 768) {
+            const dot = document.getElementById('cursor-dot');
+            const follower = document.getElementById('cursor-follower');
+            window.addEventListener('mousemove', (e) => {
+                gsap.to(dot, { x: e.clientX - 3, y: e.clientY - 3, duration: 0.1 });
+                gsap.to(follower, { x: e.clientX - 22, y: e.clientY - 22, duration: 0.6, ease: "power3.out" });
+            });
+        }
 
+        // --- MAGNETIC BUTTONS ---
         document.querySelectorAll('.magnetic').forEach(el => {
             el.addEventListener('mousemove', (e) => {
                 const rect = el.getBoundingClientRect();
@@ -404,6 +437,7 @@
             el.addEventListener('mouseleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.6 }));
         });
 
+        // --- HORIZONTAL SCROLL ---
         let sections = gsap.utils.toArray(".horizontal-item");
         gsap.to(sections, {
             xPercent: -100 * (sections.length - 1),
@@ -422,41 +456,48 @@
 
         gsap.to(".marquee-content", { xPercent: -50, ease: "none", duration: 20, repeat: -1 });
 
-        // --- CONEXIÓN REAL CON RAILWAY ---
+        // --- CONEXIÓN ESTRATÉGICA CON JAVA (RAILWAY) ---
         document.getElementById('whatsappForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const btn = e.target.querySelector('button');
             const originalText = btn.innerHTML;
-            const nombre = document.getElementById('nombre').value;
-            const servicio = document.getElementById('servicio').value;
+            
+            const datos = {
+                usuario: document.getElementById('nombre').value,
+                tipoServicio: document.getElementById('servicio').value,
+                presupuesto: document.getElementById('presupuesto').value,
+                urgencia: document.getElementById('urgencia').value
+            };
 
-            // Feedback visual
-            btn.innerHTML = '<i class="fas fa-circle-notch animate-spin mr-2"></i> PROCESANDO ANÁLISIS...';
+            btn.innerHTML = '<i class="fas fa-robot animate-spin mr-2"></i> CALCULANDO RENTABILIDAD...';
             btn.disabled = true;
 
             try {
-                // LLAMADA A TU DOMINIO REAL DE RAILWAY
                 const response = await fetch('https://soyjoshua-production.up.railway.app/api/v1/diagnostico', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        usuario: nombre,
-                        tipoServicio: servicio
-                    })
+                    body: JSON.stringify(datos)
                 });
 
                 const data = await response.json();
 
-                // Mensaje profesional con el ID generado por Java
-                const msg = `Hola Joshua! Mi nombre es ${data.usuario}. Acabo de completar el diagnóstico en tu web para ${servicio}. Mi ID de seguimiento es: ${data.id}. Prioridad del sistema: ${data.prioridad}.`;
+                // Construcción de mensaje para WhatsApp con los nuevos datos
+                const msg = `SISTEMA SERN: Auditoría Iniciada\n` +
+                            `--------------------------\n` +
+                            `🆔 ID: ${data.id}\n` +
+                            `👤 Cliente: ${data.usuario}\n` +
+                            `🛠 Servicio: ${datos.tipoServicio}\n` +
+                            `💰 Presupuesto: ${datos.presupuesto}\n` +
+                            `⏳ Urgencia: ${datos.urgencia}\n` +
+                            `🔥 Prioridad: ${data.prioridad || 'ALTA'}\n` +
+                            `📊 Score IA: ${data.score || 'PROCESANDO'}`;
                 
                 window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(msg)}`, '_blank');
 
             } catch (error) {
-                console.error("Error en el servidor Java:", error);
-                // Failsafe: Si el servidor falla, enviamos el mensaje básico para no perder al cliente
-                const fallbackMsg = `Hola Joshua! Soy ${nombre}. Me interesa el servicio de ${servicio} y quiero una consultoría.`;
+                console.error("Failsafe activado:", error);
+                const fallbackMsg = `Joshua, quiero un diagnóstico.\nNombre: ${datos.usuario}\nServicio: ${datos.tipoServicio}\nPresupuesto: ${datos.presupuesto}`;
                 window.open(`https://wa.me/5493541214553?text=${encodeURIComponent(fallbackMsg)}`, '_blank');
             } finally {
                 btn.innerHTML = originalText;
@@ -467,4 +508,3 @@
     </script>
 </body>
 </html>
-
